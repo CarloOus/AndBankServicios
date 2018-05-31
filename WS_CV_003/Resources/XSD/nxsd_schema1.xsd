@@ -1,0 +1,30 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://TargetNamespace.com/RestReference_2_Operation1_response" targetNamespace="http://TargetNamespace.com/RestReference_2_Operation1_response" elementFormDefault="qualified" xmlns:nxsd="http://xmlns.oracle.com/pcbpel/nxsd" nxsd:version="JSON" nxsd:encoding="US-ASCII">
+   <xsd:element name="Root-Element">
+      <xsd:complexType>
+         <xsd:sequence>
+            <xsd:element name="CNT_NUMERO" type="xsd:integer"/>
+            <xsd:element name="CNT_CENTRE" type="xsd:integer"/>
+            <xsd:element name="CNT_STATUS"/>
+            <xsd:element name="CNT_STATUSCONTACT" type="xsd:integer"/>
+            <xsd:element name="CNT_GERANT1" type="xsd:integer"/>
+            <xsd:element name="CNC_PRENOM" type="xsd:string"/>
+            <xsd:element name="CNC_NOM" type="xsd:string"/>
+            <xsd:element name="CNT_NATIONALITE" type="xsd:integer"/>
+            <xsd:element name="CNT_TYPECONTACT" type="xsd:string"/>
+            <xsd:element name="CNC_IDENTFISCALE"/>
+            <xsd:element name="CNT_FORMEJURIDIQUE" type="xsd:integer"/>
+            <xsd:element name="CNT_PSEUDONYME"/>
+            <xsd:element name="CNC_NUMDOCIDENTITE" type="xsd:integer"/>
+            <xsd:element name="CNT_DATENAISSANCE" type="xsd:string"/>
+            <xsd:element name="CNT_DATEECHEANCE" type="xsd:string"/>
+            <xsd:element name="CNC_TYPDOCIDENTITE" type="xsd:integer"/>
+            <xsd:element name="CNC_PRENOM2"/>
+         </xsd:sequence>
+      </xsd:complexType>
+   </xsd:element>
+<xsd:annotation xmlns="">
+      <xsd:appinfo>NXSDSAMPLE=</xsd:appinfo>
+      <xsd:appinfo>USEHEADER=false</xsd:appinfo>
+   </xsd:annotation>
+</xsd:schema>

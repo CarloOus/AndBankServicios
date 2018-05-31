@@ -1,0 +1,36 @@
+<application xmlns:soa="http://www.oracle.com/soa/rest" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ns0="http://TargetNamespace.com/request_validation" xmlns="http://wadl.dev.java.net/2009/02">
+   <doc title="RestService">RestService</doc>
+   <grammars>
+      <xsd:schema>
+            <xsd:import namespace="http://TargetNamespace.com/request_validation" schemaLocation="XSD/rest_request.xsd"/>
+        </xsd:schema>
+      <xsd:schema>
+            <xsd:import namespace="http://TargetNamespace.com/response_validation" schemaLocation="XSD/rest_response.xsd"/>
+        </xsd:schema>
+   </grammars>
+   <resources>
+      <resource path="/{clientApp}/{timestamp}/{jurisdiction}/{requestId}/">
+         <method name="GET" soa:wsdlOperation="GET">
+            <request soa:paramElement="pns:Root-Element" xmlns:pns="http://TargetNamespace.com/request_validation">
+               <param name="clientApp" style="template" soa:expression="$msg.request/ns0:header/ns0:clientApp" type="xsd:string"/>
+               <param name="timestamp" style="template" soa:expression="$msg.request/ns0:header/ns0:timestamp" type="xsd:dateTime"/>
+               <param name="jurisdiction" style="template" soa:expression="$msg.request/ns0:header/ns0:jurisdiction" type="xsd:string"/>
+               <param name="requestId" style="template" soa:expression="$msg.request/ns0:header/ns0:requestId" type="xsd:string"/>
+            </request>
+            <response status="200">
+               <representation mediaType="application/json" element="cns:Root-Element" xmlns:cns="http://TargetNamespace.com/response_validation"/>
+            </response>
+         </method>
+      </resource>
+      <resource path="/">
+         <method name="POST" soa:wsdlOperation="POST">
+            <request>
+               <representation mediaType="application/json" element="cns:Root-Element" xmlns:cns="http://TargetNamespace.com/request_validation"/>
+            </request>
+            <response status="200">
+               <representation mediaType="application/json" element="cns:Root-Element" xmlns:cns="http://TargetNamespace.com/response_validation"/>
+            </response>
+         </method>
+      </resource>
+   </resources>
+</application>
