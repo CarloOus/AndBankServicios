@@ -1,0 +1,22 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://TargetNamespace.com/request_validation_cvm"
+            targetNamespace="http://TargetNamespace.com/request_validation_cvm" elementFormDefault="qualified">
+  <xsd:element name="Root-Element">
+    <xsd:complexType>
+      <xsd:all>
+              <xsd:element name="RNC_CLI_RACINE" type="xsd:string" minOccurs="0"/>
+              <xsd:element name="RNC_CNT_NUMERO" type="xsd:string" minOccurs="0"/>
+              <xsd:element name="RNC_TYPREL" type="xsd:string" minOccurs="0"/>
+              <xsd:element name="RNC_STATUT" type="xsd:string" minOccurs="0"/>
+              <xsd:element name="RCN_CNT_NUMERO" type="xsd:string" minOccurs="0"/>
+              <xsd:element name="RCN_RACINELIEE" type="xsd:string" minOccurs="0" />
+              <xsd:element name="RCN_TYPERELATION" type="xsd:string" minOccurs="0"/>
+              <xsd:element name="RCN_STATUS" type="xsd:string" minOccurs="0"/>
+      </xsd:all>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:annotation xmlns="">
+    <xsd:appinfo>NXSDSAMPLE=</xsd:appinfo>
+    <xsd:appinfo>USEHEADER=false</xsd:appinfo>
+  </xsd:annotation>
+</xsd:schema>
