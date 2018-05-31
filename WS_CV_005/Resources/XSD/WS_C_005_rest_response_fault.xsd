@@ -1,0 +1,29 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://TargetNamespace.com/response_validation_fault"
+            targetNamespace="http://TargetNamespace.com/response_validation_fault" elementFormDefault="qualified">
+<xsd:element name="Fault">
+    <xsd:complexType>
+            <xsd:all>
+                <xsd:element name="detail">
+                   <xsd:complexType>
+                      <xsd:all>
+                          <xsd:element name="PayloadDetail">
+                              <xsd:complexType>
+                                 <xsd:all>
+                                    <xsd:element name="text" type="xsd:string" minOccurs="0"/>
+                                 </xsd:all>
+                              </xsd:complexType>
+                          </xsd:element>
+                      </xsd:all>
+                   </xsd:complexType>
+                </xsd:element>
+                <xsd:element name="faultcode" type="xsd:string" minOccurs="0"/>
+                <xsd:element name="faultstring" type="xsd:string" minOccurs="0"/>
+             </xsd:all>                 
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:annotation xmlns="">
+    <xsd:appinfo>NXSDSAMPLE=</xsd:appinfo>
+    <xsd:appinfo>USEHEADER=false</xsd:appinfo>
+  </xsd:annotation>
+</xsd:schema>

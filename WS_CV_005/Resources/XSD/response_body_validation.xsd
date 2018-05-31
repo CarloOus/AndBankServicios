@@ -1,0 +1,42 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://TargetNamespace.com/response_validation"
+            targetNamespace="http://TargetNamespace.com/response_validation" elementFormDefault="qualified">
+  <xsd:element name="Root-Element">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="RELATIONS" minOccurs="0" maxOccurs="unbounded">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="RNC_CLI_RACINE" minOccurs="0"/>
+              <xsd:element name="RNC_TYPREL" minOccurs="0"/>
+              <xsd:element name="RNC_CNT_NUMERO" minOccurs="0"/>
+              <xsd:element name="RNC_STATUT" minOccurs="0"/>
+              <xsd:element name="RCN_CNT_NUMERO" minOccurs="0"/>
+              <xsd:element name="RCN_RACINELIEE" minOccurs="0"/>
+              <xsd:element name="RCN_TYPERELATION" minOccurs="0"/>
+              <xsd:element name="RCN_STATUS" minOccurs="0"/>
+              <xsd:element name="RNC_OPERANTCREATION" minOccurs="0"/>
+              <xsd:element name="RNC_DATEMUTATION" minOccurs="0"/>
+              <xsd:element name="RNC_HEUREMUTATION" minOccurs="0"/>
+              <xsd:element name="RNC_HEURECREATION" minOccurs="0"/>
+              <xsd:element name="RNC_MAITRE_MAJ" minOccurs="0"/>
+              <xsd:element name="RNC_DATECREATION" minOccurs="0"/>
+              <xsd:element name="RNC_OPERANTMUTATION" minOccurs="0"/>
+              <xsd:element name="RNC_DETENTION" minOccurs="0"/>
+              <xsd:element name="RCN_OPERANTCREATION" minOccurs="0"/>
+              <xsd:element name="RCN_DATECREATION" minOccurs="0"/>
+              <xsd:element name="RCN_HEURECREATION" minOccurs="0"/>
+              <xsd:element name="RCN_OPERANTMUTATION" minOccurs="0"/>
+              <xsd:element name="RCN_DATEMUTATION" minOccurs="0"/>
+              <xsd:element name="RCN_HEUREMUTATION" minOccurs="0"/>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:annotation xmlns="">
+    <xsd:appinfo>NXSDSAMPLE=</xsd:appinfo>
+    <xsd:appinfo>USEHEADER=false</xsd:appinfo>
+  </xsd:annotation>
+</xsd:schema>

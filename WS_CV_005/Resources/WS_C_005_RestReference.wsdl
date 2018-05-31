@@ -1,0 +1,55 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="WS_C_005_RestReference"
+     targetNamespace="http://xmlns.oracle.com/ServiceBusApplication2/WS_CV_005/WS_C_005_RestReference"
+     xmlns:tns="http://xmlns.oracle.com/ServiceBusApplication2/WS_CV_005/WS_C_005_RestReference"
+     xmlns:inp1="http://TargetNamespace.com/request_validation_cvm"
+     xmlns:inp2="http://TargetNamespace.com/response_validation"
+     xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+     xmlns:inp3="http://TargetNamespace.com/response_validation_fault"
+    >
+    <plnk:partnerLinkType name="WS_C_005_RestReference">
+        <plnk:role name="WS_C_005_RestReferenceProvider" portType="tns:WS_C_005_RestReference_ptt"/>
+    </plnk:partnerLinkType>
+    <wsdl:types>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:import namespace="http://TargetNamespace.com/request_validation_cvm" schemaLocation="XSD/WS_C_005_rest_request.xsd"/>
+        </xsd:schema>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:import namespace="http://TargetNamespace.com/response_validation" schemaLocation="XSD/WS_C_005_rest_response.xsd"/>
+        </xsd:schema>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:import namespace="http://TargetNamespace.com/response_validation_fault" schemaLocation="XSD/WS_C_005_rest_response_fault.xsd"/>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="POST_inputMessage">
+        <wsdl:part name="request" element="inp1:Root-Element"/>
+    </wsdl:message>
+    <wsdl:message name="POST_outputMessage">
+        <wsdl:part name="reply" element="inp2:Root-Element"/>
+    </wsdl:message>
+    <wsdl:message name="POST_fault1Message">
+        <wsdl:part name="fault_fault1" element="inp3:Fault"/>
+    </wsdl:message>
+    <wsdl:portType name="WS_C_005_RestReference_ptt">
+        <wsdl:operation name="POST">
+            <wsdl:input message="tns:POST_inputMessage"/>
+            <wsdl:output message="tns:POST_outputMessage"/>
+            <wsdl:fault name="fault1" message="tns:POST_fault1Message"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="WS_C_005_RestReference_ptt-binding" type="tns:WS_C_005_RestReference_ptt">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="POST">
+            <soap:operation soapAction="POST"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+</wsdl:definitions>
