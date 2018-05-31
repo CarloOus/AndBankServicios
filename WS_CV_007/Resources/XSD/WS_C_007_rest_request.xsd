@@ -1,0 +1,38 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://TargetNamespace.com/request_validation_cvm"
+            targetNamespace="http://TargetNamespace.com/request_validation_cvm" elementFormDefault="qualified">
+  <xsd:element name="Root-Element">
+    <xsd:complexType>
+            <xsd:all>
+              <xsd:element name="MCC_CNT_NUMERO" type="xsd:integer" minOccurs="0"/>
+              <xsd:element name="MCC_CLI_RACINE" type="xsd:string" minOccurs="0"/>
+              <xsd:element name="MCC_ORIGINE" type="xsd:string" minOccurs="0"/>
+              <xsd:element name="MCC_TYPE" type="xsd:integer" minOccurs="0"/>
+              <xsd:element name="MCC_L1" type="xsd:string" minOccurs="0"/>
+              <xsd:element name="MCC_L2" type="xsd:string" minOccurs="0" />
+              <xsd:element name="MCC_L3" type="xsd:string" minOccurs="0"/>
+              <xsd:element name="MCC_L4" type="xsd:string" minOccurs="0"/>
+              <xsd:element name="MCC_L5" type="xsd:string" minOccurs="0"/>
+              <xsd:element name="MCC_L6" type="xsd:string" minOccurs="0"/>
+              <xsd:element name="MCC_PRIVE" type="xsd:integer" minOccurs="0"/>
+              <xsd:element name="MCC_STATUS" type="xsd:string" minOccurs="0"/>
+              <xsd:element name="MCC_ADRFISCALE" type="xsd:string" minOccurs="0"/>
+              <xsd:element name="MCC_ADRCORRESPONDANCE" type="xsd:string" minOccurs="0"/>
+              <xsd:element name="MCC_REGION" type="xsd:string" minOccurs="0"/>
+              <xsd:element name="MCC_PAYS" type="xsd:string" minOccurs="0"/>
+              <xsd:element name="MCC_TELDE" type="xsd:integer" minOccurs="0"/>
+              <xsd:element name="MCC_TELA" type="xsd:integer" minOccurs="0"/>
+              <xsd:element name="MCC_RETENIRCOURRIER" type="xsd:string" minOccurs="0"/>
+              <xsd:element name="MCC_JOURNEE" type="xsd:string" minOccurs="0"/>
+              <xsd:element name="MCC_JOIGNABLE" type="xsd:string" minOccurs="0"/>
+              <xsd:element name="MCC_GENRE" type="xsd:string" minOccurs="0"/>
+              <xsd:element name="MCC_CAB" type="xsd:string" minOccurs="0"/>
+              <xsd:element name="MCC_CAP" type="xsd:string" minOccurs="0"/>
+            </xsd:all>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:annotation xmlns="">
+    <xsd:appinfo>NXSDSAMPLE=</xsd:appinfo>
+    <xsd:appinfo>USEHEADER=false</xsd:appinfo>
+  </xsd:annotation>
+</xsd:schema>
