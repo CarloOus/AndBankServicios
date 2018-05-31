@@ -1,0 +1,46 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://TargetNamespace.com/response_validation"
+            targetNamespace="http://TargetNamespace.com/response_validation" elementFormDefault="qualified">
+  <xsd:element name="Root-Element">
+    <xsd:complexType>
+            <xsd:all>
+              <xsd:element name="CODE" type="xsd:string" minOccurs="0"/>
+              <xsd:element name="MESSAGE" type="xsd:string" minOccurs="0"/>
+              <xsd:element name="DESCRIPTION" type="xsd:string" minOccurs="0"/>
+              <xsd:element name="CNT_NUMERO" minOccurs="0" />
+              <xsd:element name="CNT_STATUSCONTACT" minOccurs="0" />
+              <xsd:element name="CNC_IDENTFISCALE" minOccurs="0" />
+              <xsd:element name="CNT_CONTACTUS" minOccurs="0" />
+              <xsd:element name="CNT_SITUFISCALE" minOccurs="0" />
+              <xsd:element name="CNT_TAUXIMPOSITIONTXT" minOccurs="0" />
+              <xsd:element name="CNT_TAUXIMPOSITION" minOccurs="0" />
+              <xsd:element name="CNT_CODE2" minOccurs="0" />
+              <xsd:element name="CNT_CODE3" minOccurs="0" />
+              <xsd:element name="CNT_PAYSRESIDFISCALE" minOccurs="0" />
+              <xsd:element name="CNT_TAXEEU" minOccurs="0" />
+              <xsd:element name="CNT_TAXELOCALE" minOccurs="0" />
+              <xsd:element name="CNT_USRESIDENT" minOccurs="0" />
+              <xsd:element name="CNT_DOMICILELEGAL" minOccurs="0" />
+              <xsd:element name="CNT_RAU_CLIRAC" minOccurs="0" />
+              <xsd:element name="CNT_DOUBLE_IMPOSITION" minOccurs="0" />
+              <xsd:element name="CNT_RACINE_RESERVEE" minOccurs="0" />
+              <xsd:element name="CNT_FAT_IDENTIFICATION" minOccurs="0" />
+              <xsd:element name="CNT_FAT_INDICE_US" minOccurs="0" />
+              <xsd:element name="CNT_FAT_US_PERSON" minOccurs="0" />
+              <xsd:element name="CNT_FAT_FFI" minOccurs="0" />
+              <xsd:element name="CNT_FAT_PATRIMOINE" minOccurs="0" />
+              <xsd:element name="CNT_NUM_CNT_EXTERNE" minOccurs="0" />
+              <xsd:element name="CNT_US_CITIZEN" minOccurs="0" />
+              <xsd:element name="CNT_FAT_REC_CODE" minOccurs="0" />
+              <xsd:element name="CNT_ASSUJETTI_TVA" minOccurs="0" />
+              <xsd:element name="CNT_DATE3" minOccurs="0" />
+              <xsd:element name="CNT_DATE4" minOccurs="0" />
+              <xsd:element name="CNT_DATE5" minOccurs="0" />
+            </xsd:all>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:annotation xmlns="">
+    <xsd:appinfo>NXSDSAMPLE=</xsd:appinfo>
+    <xsd:appinfo>USEHEADER=false</xsd:appinfo>
+  </xsd:annotation>
+</xsd:schema>

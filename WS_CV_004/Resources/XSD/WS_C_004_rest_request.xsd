@@ -1,0 +1,15 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://TargetNamespace.com/request_validation_cvm"
+            targetNamespace="http://TargetNamespace.com/request_validation_cvm" elementFormDefault="qualified">
+  <xsd:element name="Root-Element">
+    <xsd:complexType>
+      <xsd:all>
+        <xsd:element name="CNT_ID" minOccurs="0" />
+      </xsd:all>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:annotation xmlns="">
+    <xsd:appinfo>NXSDSAMPLE=</xsd:appinfo>
+    <xsd:appinfo>USEHEADER=false</xsd:appinfo>
+  </xsd:annotation>
+</xsd:schema>

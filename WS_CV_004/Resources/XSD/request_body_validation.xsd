@@ -1,0 +1,22 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://TargetNamespace.com/request_validation"
+            targetNamespace="http://TargetNamespace.com/request_validation" elementFormDefault="qualified">
+  <xsd:element name="Root-Element">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="HEADER" minOccurs="1" maxOccurs="1"/>
+        <xsd:element name="BODY" minOccurs="1" maxOccurs="1">
+          <xsd:complexType>
+            <xsd:all>
+              <xsd:element name="CNT_ID" minOccurs="0" />
+            </xsd:all>
+          </xsd:complexType>
+        </xsd:element>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:annotation xmlns="">
+    <xsd:appinfo>NXSDSAMPLE=</xsd:appinfo>
+    <xsd:appinfo>USEHEADER=false</xsd:appinfo>
+  </xsd:annotation>
+</xsd:schema>
