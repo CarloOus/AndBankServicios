@@ -1,0 +1,118 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://TargetNamespace.com/response_validation"
+            targetNamespace="http://TargetNamespace.com/response_validation" elementFormDefault="qualified">
+  <xsd:element name="Root-Element">
+    <xsd:complexType>
+            <xsd:all>
+              <xsd:element name="CODE" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="MESSAGE" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="DESCRIPTION" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_STATUSCONTACT" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_STATUS" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_CENTRE" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_GERANT1" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_GERANT2" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_GERANT3" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_GROUPEGESTION" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_LANGUE" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_LANGUEDOCUMENTS" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_AGENT" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_ETATCIVIL" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_CIVILITE" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_SEXE" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_NATIONALITE" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_NATIONALITE2" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_DATENAISSANCE" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_DATEDECES" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_PAYSNAISSANCE" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_SIGNEASTRO" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_NBRENFANTS" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_NBRENFANTS2" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_CODE1" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_NIVEAUETUDE" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_SECTEURACTIVITE" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_PHRASECONV" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_HORIZONINVEST" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_CONNAISSANCEMARC" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_AGENTPUBLIC" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_LIENINTERNE" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_PATRIMOINEEXTERN" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_PROVFONDS" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_PROFESSION" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_RELATIONBANQUE" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_CDORIGINEENTREER" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_PAYSARISQUE" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_ACTIVITEARISQUE" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_SITUFISCALE" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_TAUXIMPOSITIONTX" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_TAUXIMPOSITION" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_REGIMEMATRIMONIA" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_RETRAITE" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_FORMEJURIDIQUE" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_NBRESALARIES" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_SITEINTERNET" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_TYPECONTACT" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_SEGMENTATION" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_CONTACTUS" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_DATE1" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_DATE2" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_DATE3" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_DATE4" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_DATE5" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_CODE2" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_CODE3" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_CODE4" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_CODE5" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_OPERANTCREATION" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_DATECREATION" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_HEURECREATION" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_OPERANTMUTATION" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_DATEMUTATION" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_HEUREMUTATION" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_ANCIENNEREFCONTA" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_COMMENTAIREPRO" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_PAYSRESIDFISCALE" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_TAXEEU" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_TAXELOCALE" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_USRESIDENT" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_LIEUNAISSANCE" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_EMPLOYEUR" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_DESCRACTIVITE" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_REMARQUE" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_ASSISTANT" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_SEGMENTMARCHE1" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_SEGMENTMARCHE2" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_PROFESSIONNEL" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_PSEUDONYME" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_COMMERCIAL" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_BUREAUREPRES" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_NATURE" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_SECURISE" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_LIEUTRAVAIL" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_DOMICILELEGAL" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_PSD_NUMERO" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_DATEEMISSION" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_DATEECHEANCE" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_RAU_CLIRAC" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_SECTEURECONOMIQU" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_DOUBLE_IMPOSITIO" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_JUR" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_REFERENCE" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_DATECHEANCE" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_DATEVALIDITE" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_CONV_JUR" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_RACINE_RESERVEE" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_FAT_IDENTIFICATI" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_FAT_INDICE_US" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_FAT_US_PERSON" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_FAT_FFI" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_FAT_PATRIMOINE" minOccurs="0" type="xsd:string"/>
+              <xsd:element name="CNT_NUM_CNTEXTERNE" minOccurs="0" type="xsd:string"/>
+            </xsd:all>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:annotation xmlns="">
+    <xsd:appinfo>NXSDSAMPLE=</xsd:appinfo>
+    <xsd:appinfo>USEHEADER=false</xsd:appinfo>
+  </xsd:annotation>
+</xsd:schema>
