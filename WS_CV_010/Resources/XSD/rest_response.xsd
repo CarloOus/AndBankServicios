@@ -1,0 +1,32 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://TargetNamespace.com/response_validation"
+            targetNamespace="http://TargetNamespace.com/response_validation" elementFormDefault="qualified">
+  <xsd:element name="Root-Element">
+    <xsd:complexType>
+      <xsd:all>
+        <xsd:element name="header" minOccurs="0" maxOccurs="1">
+          <xsd:complexType>
+            <xsd:all>
+              <xsd:element name="clientApp" type="xsd:string"/>
+              <xsd:element name="timestamp" type="xsd:dateTime"/>
+              <xsd:element name="jurisdiction" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+              <xsd:element name="requestId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+            </xsd:all>
+          </xsd:complexType>
+        </xsd:element>
+        <xsd:element name="body" minOccurs="0" maxOccurs="1">
+          <xsd:complexType>
+            <xsd:all>
+              <xsd:element name="code" type="xsd:string" minOccurs="0"/>
+              <xsd:element name="message" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+            </xsd:all>
+          </xsd:complexType>
+        </xsd:element>
+      </xsd:all>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:annotation xmlns="">
+    <xsd:appinfo>NXSDSAMPLE=</xsd:appinfo>
+    <xsd:appinfo>USEHEADER=false</xsd:appinfo>
+  </xsd:annotation>
+</xsd:schema>

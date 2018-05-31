@@ -1,0 +1,1182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:pipelineEntry xmlns:con="http://www.bea.com/wli/sb/pipeline/config" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con2="http://www.bea.com/wli/sb/stages/config">
+    <con:coreEntry>
+        <con:binding type="SOAP" isSoap12="false" xsi:type="con:SoapBindingType">
+            <con:wsdl ref="WS_CV_010/Resources/WS_CV_010_RestService"/>
+            <con:binding>
+                <con:name>WS_CV_010_RestService_ptt-binding</con:name>
+                <con:namespace>http://xmlns.oracle.com/ServiceBusApplication2/WS_CV_010/WS_CV_010_RestService</con:namespace>
+            </con:binding>
+        </con:binding>
+        <con:xqConfiguration>
+            <con:snippetVersion>1.0</con:snippetVersion>
+        </con:xqConfiguration>
+    </con:coreEntry>
+    <con:router errorHandler="error-7796560.841ade2.0.1580117356b.N7456">
+        <con:pipeline name="error-7796560.841ade2.0.1580117356b.N7456" type="error">
+            <con:stage name="Pipeline_Error_Handler">
+                <con:context xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con2="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                    <con4:userNsDecl prefix="ord" namespace="http://TargetNamespace.com/request_validation" xmlns:con4="http://www.bea.com/wli/sb/stages/config"/>
+                    <con4:userNsDecl prefix="val" namespace="http://TargetNamespace.com/req_validation" xmlns:con4="http://www.bea.com/wli/sb/stages/config"/>
+                </con:context>
+                <con:actions>
+                    <con2:ifThenElse xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con2="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                        <con1:id xmlns:con4="http://www.bea.com/wli/sb/stages/config">_ActionId-N3f5732d8.2a9325bc.0.158af317224.N7dbb</con1:id>
+                        <con2:case id="N3f57302e.88c8c65.2.162d3d28e93.N7fff">
+                            <con2:condition>
+                                <con4:xqueryText xmlns:con4="http://www.bea.com/wli/sb/stages/config">$fault/ctx:errorCode = 'BUS-1' or $fault/ctx:errorCode = 'BUS-3'</con4:xqueryText>
+                            </con2:condition>
+                            <con2:actions>
+                                <con4:log xmlns:con3="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con1="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con4="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con2="http://www.bea.com/wli/sb/stages/config">
+                                    <con2:id>_ActionId-N3f5732d8.2a9325bc.0.158af317224.N7bc0</con2:id>
+                                    <con3:logLevel>error</con3:logLevel>
+                                    <con3:expr>
+                                        <con2:xqueryText>fn:concat('~RESTComponent~[AndBank.ARCH][',$ServiceName,'][',$LogId,'][ERROR][FAULT]',fn-bea:serialize($fault),'[SUBMESSAGE]'),$validation/val:ValidationErrorList/val:ValidationError[1]/val:submessage/text()</con2:xqueryText>
+                                    </con3:expr>
+                                </con4:log>
+                                <con2:replace varName="body" contents-only="true">
+                                    <con1:id xmlns:con4="http://www.bea.com/wli/sb/stages/config">_ActionId-N3f5732d8.2a9325bc.0.158af317224.N7c93</con1:id>
+                                    <con2:location>
+                                        <con1:xpathText xmlns:con4="http://www.bea.com/wli/sb/stages/config">.</con1:xpathText>
+                                    </con2:location>
+                                    <con2:expr>
+                                        <con4:xqueryTransform xmlns:con4="http://www.bea.com/wli/sb/stages/config">
+                                            <con4:resource ref="RESTComponent/Resources/XQ/dev_body_validation_error"/>
+                                            <con4:param name="messageId">
+                                                <con4:path>$messageID</con4:path>
+                                            </con4:param>
+                                            <con4:param name="validation">
+                                                <con4:path>$validation</con4:path>
+                                            </con4:param>
+                                        </con4:xqueryTransform>
+                                    </con2:expr>
+                                </con2:replace>
+                                <con5:log xmlns:con2="http://www.bea.com/wli/sb/stages/config" xmlns:con4="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con1="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con5="http://www.bea.com/wli/sb/stages/logging/config">
+                                    <con6:id xmlns:con6="http://www.bea.com/wli/sb/stages/config">_ActionId-N3f5732d8.2a9325bc.0.158af317224.N7bbd</con6:id>
+                                    <con1:logLevel>error</con1:logLevel>
+                                    <con1:expr>
+                                        <con6:xqueryText xmlns:con6="http://www.bea.com/wli/sb/stages/config">fn:concat('~RESTComponent~[AndBank.ARCH][',$ServiceName,'][',$LogId,'][ERROR][CUSTOM_ERROR_COMP][Body]',fn-bea:serialize($body))</con6:xqueryText>
+                                    </con1:expr>
+                                    <con1:message/>
+                                </con5:log>
+                                <con1:reply xmlns:con4="http://www.bea.com/wli/sb/stages/config">
+                                    <con1:id>_ActionId-N3f5732d8.2a9325bc.0.158af317224.N7c8e</con1:id>
+                                </con1:reply>
+                            </con2:actions>
+                        </con2:case>
+                        <con2:case id="N3f57302e.88c8c65.2.162d3d28e93.N7ffe">
+                            <con2:condition>
+                                <con4:xqueryText xmlns:con4="http://www.bea.com/wli/sb/stages/config">$fault/ctx:errorCode = 'BUS-2'</con4:xqueryText>
+                            </con2:condition>
+                            <con2:actions>
+                                <con4:log xmlns:con3="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con1="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con4="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con2="http://www.bea.com/wli/sb/stages/config">
+                                    <con2:id>_ActionId-77964fc.N425b856e.0.158b94f9264.N7d3f</con2:id>
+                                    <con3:logLevel>error</con3:logLevel>
+                                    <con3:expr>
+                                        <con2:xqueryText>fn:concat('~RESTComponent~[AndBank.ARCH][',$ServiceName,'][',$LogId,'][ERROR][FAULT]',fn-bea:serialize($fault))</con2:xqueryText>
+                                    </con3:expr>
+                                </con4:log>
+                                <con3:replace varName="body" contents-only="true" xmlns:con4="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con2="http://www.bea.com/wli/sb/stages/routing/config">
+                                    <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-77964fc.N425b856e.0.158b94f9264.N7d3c</con5:id>
+                                    <con3:location>
+                                        <con5:xpathText xmlns:con5="http://www.bea.com/wli/sb/stages/config">.</con5:xpathText>
+                                    </con3:location>
+                                    <con3:expr>
+                                        <con5:xqueryTransform xmlns:con5="http://www.bea.com/wli/sb/stages/config">
+                                            <con5:resource ref="Repository/Architecture/XQ/response_code_validation_error"/>
+                                            <con5:param name="messageErrorValidation">
+                                                <con5:path>$messageErrorClient</con5:path>
+                                            </con5:param>
+                                            <con5:param name="codeErrorValidation">
+                                                <con5:path>$codeErrorClient</con5:path>
+                                            </con5:param>
+                                            <con5:param name="messageId">
+                                                <con5:path>$messageID</con5:path>
+                                            </con5:param>
+                                        </con5:xqueryTransform>
+                                    </con3:expr>
+                                </con3:replace>
+                                <con5:log xmlns:con2="http://www.bea.com/wli/sb/stages/config" xmlns:con4="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con1="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con5="http://www.bea.com/wli/sb/stages/logging/config">
+                                    <con6:id xmlns:con6="http://www.bea.com/wli/sb/stages/config">_ActionId-77964fc.N425b856e.0.158b94f9264.N7d39</con6:id>
+                                    <con1:logLevel>error</con1:logLevel>
+                                    <con1:expr>
+                                        <con6:xqueryText xmlns:con6="http://www.bea.com/wli/sb/stages/config">fn:concat('~RESTComponent~[AndBank.ARCH][',$ServiceName,'][',$LogId,'][ERROR][CUSTOM_ERROR_COMP][Body]',fn-bea:serialize($body))</con6:xqueryText>
+                                    </con1:expr>
+                                    <con1:message/>
+                                </con5:log>
+                                <con5:reply xmlns:con5="http://www.bea.com/wli/sb/stages/config" xmlns:con4="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con3="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con2="http://www.bea.com/wli/sb/stages/routing/config">
+                                    <con5:id>_ActionId-77964fc.N425b856e.0.158b94f9264.N7d36</con5:id>
+                                </con5:reply>
+                            </con2:actions>
+                        </con2:case>
+                        <con3:case id="_BranchId-a797cb2.N3d5bb6ac.0.163682016f4.N7fff">
+                            <con3:condition>
+                                <con4:xqueryText xmlns:con4="http://www.bea.com/wli/sb/stages/config">$fault/ctx:errorCode = '3-101-00'</con4:xqueryText>
+                            </con3:condition>
+                            <con3:actions>
+                                <con4:log xmlns:con3="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con1="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con4="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con2="http://www.bea.com/wli/sb/stages/config">
+                                    <con2:id>_ActionId-a797cb2.N3d5bb6ac.0.163682016f4.N7f2d</con2:id>
+                                    <con3:logLevel>error</con3:logLevel>
+                                    <con3:expr>
+                                        <con2:xqueryText>fn:concat('~RESTComponent~[AndBank.ARCH][',$ServiceName,'][',$LogId,'][ERROR][FAULT]',fn-bea:serialize($fault))</con2:xqueryText>
+                                    </con3:expr>
+                                </con4:log>
+                                <con3:replace varName="body" contents-only="true" xmlns:con4="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con2="http://www.bea.com/wli/sb/stages/routing/config">
+                                    <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-a797cb2.N3d5bb6ac.0.163682016f4.N7f61</con5:id>
+                                    <con3:location>
+                                        <con5:xpathText xmlns:con5="http://www.bea.com/wli/sb/stages/config">.</con5:xpathText>
+                                    </con3:location>
+                                    <con3:expr>
+                                        <con5:xqueryTransform xmlns:con5="http://www.bea.com/wli/sb/stages/config">
+                                            <con5:resource ref="Repository/Architecture/XQ/response_code_validation_error"/>
+                                            <con5:param name="messageErrorValidation">
+                                                <con5:path>$fault/ctx:reason</con5:path>
+                                            </con5:param>
+                                            <con5:param name="codeErrorValidation">
+                                                <con5:path>$fault/ctx:errorCode</con5:path>
+                                            </con5:param>
+                                            <con5:param name="messageId">
+                                                <con5:path>$messageID</con5:path>
+                                            </con5:param>
+                                        </con5:xqueryTransform>
+                                    </con3:expr>
+                                </con3:replace>
+                                <con5:log xmlns:con2="http://www.bea.com/wli/sb/stages/config" xmlns:con4="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con1="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con5="http://www.bea.com/wli/sb/stages/logging/config">
+                                    <con6:id xmlns:con6="http://www.bea.com/wli/sb/stages/config">_ActionId-a797cb2.N3d5bb6ac.0.163682016f4.N7f95</con6:id>
+                                    <con1:logLevel>error</con1:logLevel>
+                                    <con1:expr>
+                                        <con6:xqueryText xmlns:con6="http://www.bea.com/wli/sb/stages/config">fn:concat('~RESTComponent~[AndBank.ARCH][',$ServiceName,'][',$LogId,'][ERROR][CUSTOM_ERROR_COMP][Body]',fn-bea:serialize($body))</con6:xqueryText>
+                                    </con1:expr>
+                                    <con1:message/>
+                                </con5:log>
+                                <con5:reply xmlns:con5="http://www.bea.com/wli/sb/stages/config" xmlns:con4="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con3="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con2="http://www.bea.com/wli/sb/stages/routing/config">
+                                    <con5:id>_ActionId-a797cb2.N3d5bb6ac.0.163682016f4.N7fc9</con5:id>
+                                </con5:reply>
+                            </con3:actions>
+                        </con3:case>
+                        <con3:case id="_BranchId-a797cb2.N3d5bb6ac.0.163682016f4.N7ffd">
+                            <con3:condition>
+                                <con4:xqueryText xmlns:con4="http://www.bea.com/wli/sb/stages/config">$fault/ctx:errorCode = '5-101-00'</con4:xqueryText>
+                            </con3:condition>
+                            <con3:actions>
+                                <con4:log xmlns:con3="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con1="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con4="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con2="http://www.bea.com/wli/sb/stages/config">
+                                    <con2:id>_ActionId-a797cb2.N3d5bb6ac.0.163682016f4.N7e5d</con2:id>
+                                    <con3:logLevel>error</con3:logLevel>
+                                    <con3:expr>
+                                        <con2:xqueryText>fn:concat('~RESTComponent~[AndBank.ARCH][',$ServiceName,'][',$LogId,'][ERROR][FAULT]',fn-bea:serialize($fault))</con2:xqueryText>
+                                    </con3:expr>
+                                </con4:log>
+                                <con3:replace varName="body" contents-only="true" xmlns:con4="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con2="http://www.bea.com/wli/sb/stages/routing/config">
+                                    <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-a797cb2.N3d5bb6ac.0.163682016f4.N7e91</con5:id>
+                                    <con3:location>
+                                        <con5:xpathText xmlns:con5="http://www.bea.com/wli/sb/stages/config">.</con5:xpathText>
+                                    </con3:location>
+                                    <con3:expr>
+                                        <con5:xqueryTransform xmlns:con5="http://www.bea.com/wli/sb/stages/config">
+                                            <con5:resource ref="Repository/Architecture/XQ/response_code_validation_error"/>
+                                            <con5:param name="messageErrorValidation">
+                                                <con5:path>$fault/ctx:reason</con5:path>
+                                            </con5:param>
+                                            <con5:param name="codeErrorValidation">
+                                                <con5:path>$fault/ctx:errorCode</con5:path>
+                                            </con5:param>
+                                            <con5:param name="messageId">
+                                                <con5:path>$messageID</con5:path>
+                                            </con5:param>
+                                        </con5:xqueryTransform>
+                                    </con3:expr>
+                                </con3:replace>
+                                <con5:log xmlns:con2="http://www.bea.com/wli/sb/stages/config" xmlns:con4="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con1="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con5="http://www.bea.com/wli/sb/stages/logging/config">
+                                    <con6:id xmlns:con6="http://www.bea.com/wli/sb/stages/config">_ActionId-a797cb2.N3d5bb6ac.0.163682016f4.N7ec5</con6:id>
+                                    <con1:logLevel>error</con1:logLevel>
+                                    <con1:expr>
+                                        <con6:xqueryText xmlns:con6="http://www.bea.com/wli/sb/stages/config">fn:concat('~RESTComponent~[AndBank.ARCH][',$ServiceName,'][',$LogId,'][ERROR][CUSTOM_ERROR_COMP][Body]',fn-bea:serialize($body))</con6:xqueryText>
+                                    </con1:expr>
+                                    <con1:message/>
+                                </con5:log>
+                                <con5:reply xmlns:con5="http://www.bea.com/wli/sb/stages/config" xmlns:con4="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con3="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con2="http://www.bea.com/wli/sb/stages/routing/config">
+                                    <con5:id>_ActionId-a797cb2.N3d5bb6ac.0.163682016f4.N7ef9</con5:id>
+                                </con5:reply>
+                            </con3:actions>
+                        </con3:case>
+                        <con3:case id="_BranchId-a797c44.N33ab873d.0.163aacbcd44.N7be8">
+                            <con3:condition>
+                                <con4:xqueryText xmlns:con4="http://www.bea.com/wli/sb/stages/config">$fallo/CODE = 'anomaly'</con4:xqueryText>
+                            </con3:condition>
+                            <con3:actions>
+                                <con4:log xmlns:con3="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con1="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con4="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con2="http://www.bea.com/wli/sb/stages/config">
+                                    <con2:id>_ActionId-a797c44.N33ab873d.0.163aacbcd44.N7be7</con2:id>
+                                    <con3:logLevel>error</con3:logLevel>
+                                    <con3:expr>
+                                        <con2:xqueryText>fn:concat('~RESTComponent~[AndBank.ARCH][',$ServiceName,'][',$LogId,'][ERROR][FAULT]',fn-bea:serialize($fault))</con2:xqueryText>
+                                    </con3:expr>
+                                </con4:log>
+                                <con3:replace varName="body" contents-only="true" xmlns:con4="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con2="http://www.bea.com/wli/sb/stages/routing/config">
+                                    <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-a797c44.N33ab873d.0.163aacbcd44.N7be6</con5:id>
+                                    <con3:location>
+                                        <con5:xpathText xmlns:con5="http://www.bea.com/wli/sb/stages/config">.</con5:xpathText>
+                                    </con3:location>
+                                    <con3:expr>
+                                        <con5:xqueryTransform xmlns:con5="http://www.bea.com/wli/sb/stages/config">
+                                            <con5:resource ref="Repository/Architecture/XQ/response_code_validation_error"/>
+                                            <con5:param name="messageErrorValidation">
+                                                <con5:path>$fallo/MESSAGE</con5:path>
+                                            </con5:param>
+                                            <con5:param name="codeErrorValidation">
+                                                <con5:path>$fallo/CODE</con5:path>
+                                            </con5:param>
+                                            <con5:param name="messageId">
+                                                <con5:path>$messageID</con5:path>
+                                            </con5:param>
+                                        </con5:xqueryTransform>
+                                    </con3:expr>
+                                </con3:replace>
+                                <con5:log xmlns:con2="http://www.bea.com/wli/sb/stages/config" xmlns:con4="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con1="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con5="http://www.bea.com/wli/sb/stages/logging/config">
+                                    <con6:id xmlns:con6="http://www.bea.com/wli/sb/stages/config">_ActionId-a797c44.N33ab873d.0.163aacbcd44.N7be5</con6:id>
+                                    <con1:logLevel>error</con1:logLevel>
+                                    <con1:expr>
+                                        <con6:xqueryText xmlns:con6="http://www.bea.com/wli/sb/stages/config">fn:concat('~RESTComponent~[AndBank.ARCH][',$ServiceName,'][',$LogId,'][ERROR][CUSTOM_ERROR_COMP][Body]',fn-bea:serialize($body))</con6:xqueryText>
+                                    </con1:expr>
+                                    <con1:message/>
+                                </con5:log>
+                                <con5:reply xmlns:con5="http://www.bea.com/wli/sb/stages/config" xmlns:con4="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con3="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con2="http://www.bea.com/wli/sb/stages/routing/config">
+                                    <con5:id>_ActionId-a797c44.N33ab873d.0.163aacbcd44.N7be4</con5:id>
+                                </con5:reply>
+                            </con3:actions>
+                        </con3:case>
+                        <con2:default>
+                            <con4:log xmlns:con3="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con1="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con4="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con2="http://www.bea.com/wli/sb/stages/config">
+                                <con2:id>_ActionId-N3f5732d8.2a9325bc.0.158af317224.N7ca1</con2:id>
+                                <con3:logLevel>error</con3:logLevel>
+                                <con3:expr>
+                                    <con2:xqueryText>fn:concat('~RESTComponent~[AndBank.ARCH][',$ServiceName,'][',$LogId,'][ERROR][FAULT]',fn-bea:serialize($fault))</con2:xqueryText>
+                                </con3:expr>
+                            </con4:log>
+                            <con3:replace varName="body" contents-only="true" xmlns:con4="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con2="http://www.bea.com/wli/sb/stages/routing/config">
+                                <con1:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-7796560.841ade2.0.1580117356b.N736b</con1:id>
+                                <con3:location>
+                                    <con5:xpathText xmlns:con5="http://www.bea.com/wli/sb/stages/config">.</con5:xpathText>
+                                </con3:location>
+                                <con3:expr>
+                                    <con5:xqueryTransform xmlns:con5="http://www.bea.com/wli/sb/stages/config">
+                                        <con5:resource ref="Repository/Architecture/XQ/response_code_validation_error"/>
+                                        <con5:param name="messageErrorValidation">
+                                            <con5:path>$fault/ctx:reason</con5:path>
+                                        </con5:param>
+                                        <con5:param name="codeErrorValidation">
+                                            <con5:path>$fault/ctx:errorCode</con5:path>
+                                        </con5:param>
+                                        <con5:param name="messageId">
+                                            <con5:path>$messageID</con5:path>
+                                        </con5:param>
+                                    </con5:xqueryTransform>
+                                </con3:expr>
+                            </con3:replace>
+                            <con5:log xmlns:con2="http://www.bea.com/wli/sb/stages/config" xmlns:con4="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con1="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con5="http://www.bea.com/wli/sb/stages/logging/config">
+                                <con6:id xmlns:con6="http://www.bea.com/wli/sb/stages/config">_ActionId-7796560.841ade2.0.1580117356b.N736a</con6:id>
+                                <con1:logLevel>error</con1:logLevel>
+                                <con1:expr>
+                                    <con6:xqueryText xmlns:con6="http://www.bea.com/wli/sb/stages/config">fn:concat('~RESTComponent~[AndBank.ARCH][',$ServiceName,'][',$LogId,'][ERROR][CUSTOM_ERROR_COMP][Body]',fn-bea:serialize($body))</con6:xqueryText>
+                                </con1:expr>
+                                <con1:message/>
+                            </con5:log>
+                            <con5:reply xmlns:con5="http://www.bea.com/wli/sb/stages/config" xmlns:con4="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con3="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con2="http://www.bea.com/wli/sb/stages/routing/config">
+                                <con5:id>_ActionId-7796560.841ade2.0.1580117356b.N7369</con5:id>
+                            </con5:reply>
+                        </con2:default>
+                    </con2:ifThenElse>
+                </con:actions>
+            </con:stage>
+        </con:pipeline>
+        <con:pipeline name="request-7796560.841ade2.0.1580117356b.N74dd" type="request">
+            <con:stage name="Arch_Req_Incoming_Timestamp_Generation">
+                <con:context xmlns:con4="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con2="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con3="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con1="http://www.bea.com/wli/sb/stages/config">
+                    <con1:userNsDecl prefix="ns1" namespace="http://TargetNamespace.com/RestService_Post_Put_request"/>
+                    <con1:userNsDecl prefix="req" namespace="http://TargetNamespace.com/request_validation"/>
+                </con:context>
+                <con:actions>
+                    <con4:assign varName="IncomingMessageTimestamp" xmlns:con5="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con4="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con2="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con3="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con1="http://www.bea.com/wli/sb/stages/config">
+                        <con1:id xmlns:con6="http://www.bea.com/wli/sb/stages/config">_ActionId-7796560.841ade2.0.1580117356b.N74db</con1:id>
+                        <con4:expr>
+                            <con5:xqueryText xmlns:con5="http://www.bea.com/wli/sb/stages/config">current-dateTime()</con5:xqueryText>
+                        </con4:expr>
+                    </con4:assign>
+                    <con1:assign varName="clientApp">
+                        <con2:id>_ActionId-a797cb2.72e03987.0.1634a9e5f7e.N7f2f</con2:id>
+                        <con1:expr>
+                            <con2:xqueryText>$body/req:Root-Element/req:header/req:clientApp</con2:xqueryText>
+                        </con1:expr>
+                    </con1:assign>
+                    <con1:assign varName="jurisdiction">
+                        <con2:id>_ActionId-a797cb2.72e03987.0.1634a9e5f7e.N7f32</con2:id>
+                        <con1:expr>
+                            <con2:xqueryText>$body/req:Root-Element/req:header/req:jurisdiction</con2:xqueryText>
+                        </con1:expr>
+                    </con1:assign>
+                    <con1:assign varName="requestID">
+                        <con2:id>_ActionId-a797cb2.72e03987.0.1634a9e5f7e.N7f35</con2:id>
+                        <con1:expr>
+                            <con2:xqueryText>$body/req:Root-Element/req:header/req:requestId</con2:xqueryText>
+                        </con1:expr>
+                    </con1:assign>
+                </con:actions>
+            </con:stage>
+            <con:stage name="Arch_Req_ServiceName_Config">
+                <con:context xmlns:con2="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config"/>
+                <con:actions>
+                    <con5:assign varName="ServiceName" xmlns:con5="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con4="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con3="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con2="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con1="http://www.bea.com/wli/sb/stages/config">
+                        <con1:id xmlns:con6="http://www.bea.com/wli/sb/stages/config">_ActionId-7796560.841ade2.0.1580117356b.N74d9</con1:id>
+                        <con4:expr>
+                            <con1:xqueryText>'WS_CV_010'</con1:xqueryText>
+                        </con4:expr>
+                    </con5:assign>
+                </con:actions>
+            </con:stage>
+            <con:stage name="Arch_Req_Log_Init">
+                <con:context xmlns:con2="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                    <con1:userNsDecl prefix="res" namespace="http://TargetNamespace.com/RestService_Post_Op_request" xmlns:con4="http://www.bea.com/wli/sb/stages/config"/>
+                </con:context>
+                <con:actions>
+                    <con4:assign varName="LogId" xmlns:con3="http://www.bea.com/wli/sb/stages/config" xmlns:con4="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con5="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con2="http://www.bea.com/wli/sb/stages/transform/config">
+                        <con3:id>_ActionId-7796560.841ade2.0.1580117356b.N74d7</con3:id>
+                        <con2:expr>
+                            <con3:xqueryText>$messageID</con3:xqueryText>
+                        </con2:expr>
+                    </con4:assign>
+                    <con5:log xmlns:con4="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con1="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con5="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                        <con6:id xmlns:con6="http://www.bea.com/wli/sb/stages/config">_ActionId-7796560.841ade2.0.1580117356b.N74d6</con6:id>
+                        <con1:logLevel>info</con1:logLevel>
+                        <con1:expr>
+                            <con6:xqueryText xmlns:con6="http://www.bea.com/wli/sb/stages/config">fn:concat('~RESTComponent~[AndBank.ARCH][',$ServiceName,'][',$LogId,'][',$IncomingMessageTimestamp,'][START_SERVICE]')</con6:xqueryText>
+                        </con1:expr>
+                        <con1:message/>
+                    </con5:log>
+                    <con5:log xmlns:con4="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con3="http://www.bea.com/wli/sb/stages/config" xmlns:con5="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con2="http://www.bea.com/wli/sb/stages/transform/config">
+                        <con3:id>_ActionId-7796560.841ade2.0.1580117356b.N74d5</con3:id>
+                        <con4:logLevel>debug</con4:logLevel>
+                        <con4:expr>
+                            <con3:xqueryText>fn:concat('~RESTComponent~[AndBank.ARCH][',$ServiceName,'][',$LogId,'][SRV_INPUT][Body]',fn-bea:serialize($body))</con3:xqueryText>
+                        </con4:expr>
+                        <con4:message/>
+                    </con5:log>
+                </con:actions>
+            </con:stage>
+            <con:stage name="Arch_Req_Header_Validation">
+                <con:context xmlns:con2="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                    <con1:userNsDecl prefix="req" namespace="http://TargetNamespace.com/request_validation"/>
+                </con:context>
+                <con:actions>
+                    <con5:validate xmlns:con4="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con1="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con5="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                        <con6:id xmlns:con6="http://www.bea.com/wli/sb/stages/config">_ActionId-7796560.841ade2.0.1580117356b.N74d3</con6:id>
+                        <con5:schema ref="Repository/Architecture/XSD/arch_req_header_validation"/>
+                        <con5:schemaElement xmlns:req="http://TargetNamespace.com/request_validation">req:Root-Element</con5:schemaElement>
+                        <con3:varName>body</con3:varName>
+                        <con3:location>
+                            <con2:xpathText>./req:Root-Element</con2:xpathText>
+                        </con3:location>
+                    </con5:validate>
+                    <con5:log xmlns:con4="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con1="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con5="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                        <con6:id xmlns:con6="http://www.bea.com/wli/sb/stages/config">_ActionId-7796560.841ade2.0.1580117356b.N74d2</con6:id>
+                        <con1:logLevel>debug</con1:logLevel>
+                        <con1:expr>
+                            <con6:xqueryText xmlns:con6="http://www.bea.com/wli/sb/stages/config">fn:concat('~RESTComponent~[AndBank.ARCH][',$ServiceName,'][',$LogId,'][REQUEST][HEADER_VALIDATION]')</con6:xqueryText>
+                        </con1:expr>
+                        <con1:message/>
+                    </con5:log>
+                </con:actions>
+            </con:stage>
+            <con:stage name="Arch_Req_Header_Generation">
+                <con:context xmlns:con2="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                    <con1:userNsDecl prefix="res" namespace="http://TargetNamespace.com/RestService_Post_Put_request" xmlns:con4="http://www.bea.com/wli/sb/stages/config"/>
+                    <con1:userNsDecl prefix="mdw" namespace="http://TargetNamespace.com/RestService_mdw_header" xmlns:con4="http://www.bea.com/wli/sb/stages/config"/>
+                </con:context>
+                <con:actions>
+                    <con3:replace varName="body" contents-only="true" xmlns:con2="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con4="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                        <con1:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-7796560.841ade2.0.1580117356b.N74d0</con1:id>
+                        <con3:location>
+                            <con1:xpathText xmlns:con5="http://www.bea.com/wli/sb/stages/config">.</con1:xpathText>
+                        </con3:location>
+                        <con3:expr>
+                            <con1:xqueryTransform xmlns:con5="http://www.bea.com/wli/sb/stages/config">
+                                <con1:resource ref="Repository/Architecture/XQ/request_header"/>
+                                <con1:param name="messageID">
+                                    <con1:path>$messageID</con1:path>
+                                </con1:param>
+                                <con1:param name="body">
+                                    <con1:path>$body/*</con1:path>
+                                </con1:param>
+                            </con1:xqueryTransform>
+                        </con3:expr>
+                    </con3:replace>
+                    <con5:log xmlns:con4="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con1="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con5="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                        <con6:id xmlns:con6="http://www.bea.com/wli/sb/stages/config">_ActionId-7796560.841ade2.0.1580117356b.N74cf</con6:id>
+                        <con1:logLevel>debug</con1:logLevel>
+                        <con1:expr>
+                            <con6:xqueryText xmlns:con6="http://www.bea.com/wli/sb/stages/config">fn:concat('~RESTComponent~[AndBank.ARCH][',$ServiceName,'][',$LogId,'][REQUEST][HEADER_GENERATION]',fn-bea:serialize($body))</con6:xqueryText>
+                        </con1:expr>
+                        <con1:message/>
+                    </con5:log>
+                </con:actions>
+            </con:stage>
+            <con:stage name="Arch_Req_AuditHeader_Composition">
+                <con:context xmlns:con2="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config"/>
+                <con:actions>
+                    <con3:assign varName="ArchAuditHeader" xmlns:con2="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con4="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                        <con1:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-7796560.841ade2.0.1580117356b.N74cd</con1:id>
+                        <con3:expr>
+                            <con1:xqueryText xmlns:con5="http://www.bea.com/wli/sb/stages/config">$body</con1:xqueryText>
+                        </con3:expr>
+                    </con3:assign>
+                    <con3:replace varName="ArchAuditHeader" contents-only="true" xmlns:con2="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con4="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                        <con1:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-7796560.841ade2.0.1580117356b.N74cc</con1:id>
+                        <con3:location>
+                            <con1:xpathText xmlns:con5="http://www.bea.com/wli/sb/stages/config">.</con1:xpathText>
+                        </con3:location>
+                        <con3:expr>
+                            <con1:xqueryTransform xmlns:con5="http://www.bea.com/wli/sb/stages/config">
+                                <con1:resource ref="Repository/Architecture/XQ/arch_req_audit_header"/>
+                                <con1:param name="IncomingMessageTimestamp">
+                                    <con1:path>$IncomingMessageTimestamp</con1:path>
+                                </con1:param>
+                                <con1:param name="body">
+                                    <con1:path>$body/*</con1:path>
+                                </con1:param>
+                                <con1:param name="serviceName">
+                                    <con1:path>$ServiceName</con1:path>
+                                </con1:param>
+                            </con1:xqueryTransform>
+                        </con3:expr>
+                    </con3:replace>
+                    <con5:log xmlns:con4="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con1="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con5="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                        <con6:id xmlns:con6="http://www.bea.com/wli/sb/stages/config">_ActionId-7796560.841ade2.0.1580117356b.N74cb</con6:id>
+                        <con1:logLevel>debug</con1:logLevel>
+                        <con1:expr>
+                            <con6:xqueryText xmlns:con6="http://www.bea.com/wli/sb/stages/config">fn:concat('~RESTComponent~[AndBank.ARCH][',$ServiceName,'][',$LogId,'][REQUEST][ArchAuditHeader_COMP][ArchAuditHeader]',fn-bea:serialize($ArchAuditHeader))</con6:xqueryText>
+                        </con1:expr>
+                        <con1:message/>
+                    </con5:log>
+                </con:actions>
+            </con:stage>
+            <con:stage name="Arch_Req_Reporting">
+                <con:context xmlns:con2="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                    <con1:userNsDecl prefix="aah" namespace="http://TargetNamespace.com/arch_audit_header" xmlns:con4="http://www.bea.com/wli/sb/stages/config"/>
+                </con:context>
+                <con:actions>
+                    <con5:report xmlns:con4="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con1="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con5="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                        <con6:id xmlns:con6="http://www.bea.com/wli/sb/stages/config">_ActionId-7796560.841ade2.0.1580117356b.N74c9</con6:id>
+                        <con1:expr>
+                            <con6:xqueryText xmlns:con6="http://www.bea.com/wli/sb/stages/config">$ArchAuditHeader</con6:xqueryText>
+                        </con1:expr>
+                        <con1:labels>
+                            <con1:key>requestId</con1:key>
+                            <con1:varName>ArchAuditHeader</con1:varName>
+                            <con1:value>
+                                <con6:xpathText xmlns:con6="http://www.bea.com/wli/sb/stages/config">$ArchAuditHeader/aah:Root-Element/aah:header/aah:requestId</con6:xpathText>
+                            </con1:value>
+                        </con1:labels>
+                        <con1:labels>
+                            <con1:key>clientApp</con1:key>
+                            <con1:varName>ArchAuditHeader</con1:varName>
+                            <con1:value>
+                                <con6:xpathText xmlns:con6="http://www.bea.com/wli/sb/stages/config">$ArchAuditHeader/aah:Root-Element/aah:header/aah:clientApp</con6:xpathText>
+                            </con1:value>
+                        </con1:labels>
+                        <con5:labels>
+                            <con5:key>jurisdiction</con5:key>
+                            <con5:varName>ArchAuditHeader</con5:varName>
+                            <con5:value>
+                                <con6:xpathText xmlns:con6="http://www.bea.com/wli/sb/stages/config">$ArchAuditHeader/aah:Root-Element/aah:header/aah:jurisdiction</con6:xpathText>
+                            </con5:value>
+                        </con5:labels>
+                        <con5:labels>
+                            <con5:key>timestamp</con5:key>
+                            <con5:varName>ArchAuditHeader</con5:varName>
+                            <con5:value>
+                                <con6:xpathText xmlns:con6="http://www.bea.com/wli/sb/stages/config">$ArchAuditHeader/aah:Root-Element/aah:header/aah:timestamp</con6:xpathText>
+                            </con5:value>
+                        </con5:labels>
+                        <con5:labels>
+                            <con5:key>messageId</con5:key>
+                            <con5:varName>ArchAuditHeader</con5:varName>
+                            <con5:value>
+                                <con6:xpathText xmlns:con6="http://www.bea.com/wli/sb/stages/config">$ArchAuditHeader/aah:Root-Element/aah:header/aah:messageId</con6:xpathText>
+                            </con5:value>
+                        </con5:labels>
+                        <con5:labels>
+                            <con5:key>incomingMessageTimestamp</con5:key>
+                            <con5:varName>ArchAuditHeader</con5:varName>
+                            <con5:value>
+                                <con6:xpathText xmlns:con6="http://www.bea.com/wli/sb/stages/config">$ArchAuditHeader/aah:Root-Element/aah:header/aah:incomingMessageTimestamp</con6:xpathText>
+                            </con5:value>
+                        </con5:labels>
+                        <con5:labels>
+                            <con5:key>serviceName</con5:key>
+                            <con5:varName>ArchAuditHeader</con5:varName>
+                            <con5:value>
+                                <con6:xpathText xmlns:con6="http://www.bea.com/wli/sb/stages/config">$ArchAuditHeader/aah:Root-Element/aah:Header/aah:serviceName</con6:xpathText>
+                            </con5:value>
+                        </con5:labels>
+                    </con5:report>
+                    <con5:log xmlns:con4="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con1="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con5="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                        <con6:id xmlns:con6="http://www.bea.com/wli/sb/stages/config">_ActionId-7796560.841ade2.0.1580117356b.N74c8</con6:id>
+                        <con1:logLevel>debug</con1:logLevel>
+                        <con1:expr>
+                            <con6:xqueryText xmlns:con6="http://www.bea.com/wli/sb/stages/config">fn:concat('~RESTComponent~[AndBank.ARCH][',$ServiceName,'][',$LogId,'][REQUEST][REPORTING]')</con6:xqueryText>
+                        </con1:expr>
+                        <con1:message/>
+                    </con5:log>
+                </con:actions>
+            </con:stage>
+        </con:pipeline>
+        <con:pipeline name="response-7796560.841ade2.0.1580117356b.N74c7" type="response">
+            <con:stage name="Arch_Res_Header_Generation">
+                <con:context xmlns:con2="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                    <con1:userNsDecl prefix="res" namespace="http://TargetNamespace.com/RestService_Post_Put_request" xmlns:con4="http://www.bea.com/wli/sb/stages/config"/>
+                    <con1:userNsDecl prefix="mdw" namespace="http://TargetNamespace.com/RestService_mdw_header" xmlns:con4="http://www.bea.com/wli/sb/stages/config"/>
+                </con:context>
+                <con:actions>
+                    <con5:log xmlns:con4="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con1="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con5="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                        <con6:id xmlns:con6="http://www.bea.com/wli/sb/stages/config">_ActionId-7796560.N5da3cc78.0.158059d354b.N7d4f</con6:id>
+                        <con1:logLevel>debug</con1:logLevel>
+                        <con1:expr>
+                            <con6:xqueryText xmlns:con6="http://www.bea.com/wli/sb/stages/config">fn:concat('~RESTComponent~[AndBank.ARCH][',$ServiceName,'][',$LogId,'][RESPONSE][HEADER_GENERATION]',fn-bea:serialize($body))</con6:xqueryText>
+                        </con1:expr>
+                        <con1:message/>
+                    </con5:log>
+                </con:actions>
+            </con:stage>
+            <con:stage name="Arch_Res_Header_Validation">
+                <con:context xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con2="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                    <con1:userNsDecl prefix="resv" namespace="http://TargetNamespace.com/response_validation" xmlns:con4="http://www.bea.com/wli/sb/stages/config"/>
+                    <con1:userNsDecl prefix="reqv" namespace="http://TargetNamespace.com/request_validation" xmlns:con4="http://www.bea.com/wli/sb/stages/config"/>
+                </con:context>
+                <con:actions>
+                    <con5:validate xmlns:con4="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con1="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con5="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                        <con6:id xmlns:con6="http://www.bea.com/wli/sb/stages/config">_ActionId-7796560.841ade2.0.1580117356b.N74c5</con6:id>
+                        <con5:schema ref="Repository/Architecture/XSD/arch_res_header_validation"/>
+                        <con5:schemaElement xmlns:res="http://TargetNamespace.com/response_validation">res:Root-Element</con5:schemaElement>
+                        <con3:varName>body</con3:varName>
+                        <con3:location>
+                            <con6:xpathText xmlns:con6="http://www.bea.com/wli/sb/stages/config">./resv:Root-Element</con6:xpathText>
+                        </con3:location>
+                    </con5:validate>
+                    <con5:log xmlns:con4="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con3="http://www.bea.com/wli/sb/stages/config" xmlns:con2="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con5="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con1="http://www.bea.com/wli/sb/stages/config">
+                        <con3:id>_ActionId-7796560.841ade2.0.1580117356b.N74c4</con3:id>
+                        <con4:logLevel>debug</con4:logLevel>
+                        <con4:expr>
+                            <con3:xqueryText>fn:concat('~RESTComponent~[AndBank.ARCH][',$ServiceName,'][',$LogId,'][RESPONSE][HEADER_VALIDATION]')</con3:xqueryText>
+                        </con4:expr>
+                        <con4:message/>
+                    </con5:log>
+                </con:actions>
+            </con:stage>
+            <con:stage name="Arch_Res_Update_Timestamp">
+                <con:context xmlns:con4="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con2="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con3="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con1="http://www.bea.com/wli/sb/stages/config">
+                    <con1:userNsDecl prefix="mdw" namespace="http://TargetNamespace.com/RestService_mdw_header" xmlns:con5="http://www.bea.com/wli/sb/stages/config"/>
+                    <con1:userNsDecl prefix="resv" namespace="http://TargetNamespace.com/response_validation" xmlns:con5="http://www.bea.com/wli/sb/stages/config"/>
+                    <con1:userNsDecl prefix="aah" namespace="http://TargetNamespace.com/arch_audit_header" xmlns:con5="http://www.bea.com/wli/sb/stages/config"/>
+                    <con1:userNsDecl prefix="int" namespace="http://TargetNamespace.com/RestService_internal_header" xmlns:con5="http://www.bea.com/wli/sb/stages/config"/>
+                </con:context>
+                <con:actions>
+                    <con4:replace varName="body" contents-only="true" xmlns:con5="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con3="http://www.bea.com/wli/sb/typesystem/config" xmlns:con6="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con4="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con2="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con1="http://www.bea.com/wli/sb/stages/config">
+                        <con1:id xmlns:con7="http://www.bea.com/wli/sb/stages/config">_ActionId-7796560.841ade2.0.1580117356b.N74c2</con1:id>
+                        <con4:location>
+                            <con1:xpathText xmlns:con7="http://www.bea.com/wli/sb/stages/config">./resv:Root-Element/resv:header/resv:timestamp</con1:xpathText>
+                        </con4:location>
+                        <con4:expr>
+                            <con6:xqueryText xmlns:con6="http://www.bea.com/wli/sb/stages/config">current-dateTime()</con6:xqueryText>
+                        </con4:expr>
+                    </con4:replace>
+                    <con5:log xmlns:con4="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con1="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con5="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                        <con6:id xmlns:con6="http://www.bea.com/wli/sb/stages/config">_ActionId-7796560.841ade2.0.1580117356b.N74c1</con6:id>
+                        <con1:logLevel>debug</con1:logLevel>
+                        <con1:expr>
+                            <con6:xqueryText xmlns:con6="http://www.bea.com/wli/sb/stages/config">fn:concat('~RESTComponent~[AndBank.ARCH][',$ServiceName,'][',$LogId,'][RESPONSE][UPDATE_TIMESTAMP][Body]',fn-bea:serialize($body))</con6:xqueryText>
+                        </con1:expr>
+                        <con1:message/>
+                    </con5:log>
+                    <con6:replace varName="ArchAuditHeader" contents-only="true" xmlns:con5="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con3="http://www.bea.com/wli/sb/typesystem/config" xmlns:con6="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con4="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con2="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con1="http://www.bea.com/wli/sb/stages/config">
+                        <con1:id xmlns:con7="http://www.bea.com/wli/sb/stages/config">_ActionId-7796560.841ade2.0.1580117356b.N74c0</con1:id>
+                        <con4:location>
+                            <con1:xpathText xmlns:con7="http://www.bea.com/wli/sb/stages/config">./aah:Root-Element/aah:header/aah:timestamp</con1:xpathText>
+                        </con4:location>
+                        <con4:expr>
+                            <con6:xqueryText xmlns:con6="http://www.bea.com/wli/sb/stages/config">current-dateTime()</con6:xqueryText>
+                        </con4:expr>
+                    </con6:replace>
+                    <con5:log xmlns:con4="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con1="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con5="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                        <con6:id xmlns:con6="http://www.bea.com/wli/sb/stages/config">_ActionId-7796560.841ade2.0.1580117356b.N74bf</con6:id>
+                        <con1:logLevel>debug</con1:logLevel>
+                        <con1:expr>
+                            <con6:xqueryText xmlns:con6="http://www.bea.com/wli/sb/stages/config">fn:concat('~RESTComponent~[AndBank.ARCH][',$ServiceName,'][',$LogId,'][RESPONSE][UPDATE_TIMESTAMP][ArchAuditHeader]',fn-bea:serialize($ArchAuditHeader))</con6:xqueryText>
+                        </con1:expr>
+                        <con1:message/>
+                    </con5:log>
+                </con:actions>
+            </con:stage>
+            <con:stage name="Arch_Res_Reporting">
+                <con:context xmlns:con4="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con1="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con5="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                    <con6:userNsDecl prefix="com" namespace="http://www.everis.com/xsd/common_header" xmlns:con6="http://www.bea.com/wli/sb/stages/config"/>
+                    <con6:userNsDecl prefix="res" namespace="http://TargetNamespace.com/RestService_Post_Op_response" xmlns:con6="http://www.bea.com/wli/sb/stages/config"/>
+                    <con6:userNsDecl prefix="aah" namespace="http://TargetNamespace.com/arch_audit_header" xmlns:con6="http://www.bea.com/wli/sb/stages/config"/>
+                    <con6:userNsDecl prefix="int" namespace="http://TargetNamespace.com/RestService_internal_header" xmlns:con6="http://www.bea.com/wli/sb/stages/config"/>
+                </con:context>
+                <con:actions>
+                    <con1:report xmlns:con4="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con1="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con5="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                        <con6:id xmlns:con6="http://www.bea.com/wli/sb/stages/config">_ActionId-7796560.841ade2.0.1580117356b.N74bd</con6:id>
+                        <con1:expr>
+                            <con6:xqueryText xmlns:con6="http://www.bea.com/wli/sb/stages/config">$ArchAuditHeader</con6:xqueryText>
+                        </con1:expr>
+                        <con1:labels>
+                            <con1:key>requestId</con1:key>
+                            <con1:varName>ArchAuditHeader</con1:varName>
+                            <con1:value>
+                                <con6:xpathText xmlns:con6="http://www.bea.com/wli/sb/stages/config">$ArchAuditHeader/aah:Root-Element/aah:header/aah:requestId</con6:xpathText>
+                            </con1:value>
+                        </con1:labels>
+                        <con1:labels>
+                            <con1:key>clientApp</con1:key>
+                            <con1:varName>ArchAuditHeader</con1:varName>
+                            <con1:value>
+                                <con6:xpathText xmlns:con6="http://www.bea.com/wli/sb/stages/config">$ArchAuditHeader/aah:Root-Element/aah:header/aah:clientApp</con6:xpathText>
+                            </con1:value>
+                        </con1:labels>
+                        <con5:labels>
+                            <con5:key>jurisdiction</con5:key>
+                            <con5:varName>ArchAuditHeader</con5:varName>
+                            <con5:value>
+                                <con6:xpathText xmlns:con6="http://www.bea.com/wli/sb/stages/config">$ArchAuditHeader/aah:Root-Element/aah:header/aah:jurisdiction</con6:xpathText>
+                            </con5:value>
+                        </con5:labels>
+                        <con5:labels>
+                            <con5:key>timestamp</con5:key>
+                            <con5:varName>ArchAuditHeader</con5:varName>
+                            <con5:value>
+                                <con6:xpathText xmlns:con6="http://www.bea.com/wli/sb/stages/config">$ArchAuditHeader/aah:Root-Element/aah:header/aah:timestamp</con6:xpathText>
+                            </con5:value>
+                        </con5:labels>
+                        <con5:labels>
+                            <con5:key>messageId</con5:key>
+                            <con5:varName>ArchAuditHeader</con5:varName>
+                            <con5:value>
+                                <con6:xpathText xmlns:con6="http://www.bea.com/wli/sb/stages/config">$ArchAuditHeader/aah:Root-Element/aah:header/aah:messageId</con6:xpathText>
+                            </con5:value>
+                        </con5:labels>
+                        <con5:labels>
+                            <con5:key>incomingMessageTimestamp</con5:key>
+                            <con5:varName>ArchAuditHeader</con5:varName>
+                            <con5:value>
+                                <con6:xpathText xmlns:con6="http://www.bea.com/wli/sb/stages/config">$ArchAuditHeader/aah:Root-Element/aah:header/aah:incomingMessageTimestamp</con6:xpathText>
+                            </con5:value>
+                        </con5:labels>
+                        <con1:labels>
+                            <con1:key>serviceName</con1:key>
+                            <con1:varName>ArchAuditHeader</con1:varName>
+                            <con1:value>
+                                <con6:xpathText xmlns:con6="http://www.bea.com/wli/sb/stages/config">$ArchAuditHeader/aah:Root-Element/aah:Header/aah:serviceName</con6:xpathText>
+                            </con1:value>
+                        </con1:labels>
+                    </con1:report>
+                    <con1:log xmlns:con4="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con1="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con5="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                        <con6:id xmlns:con6="http://www.bea.com/wli/sb/stages/config">_ActionId-7796560.841ade2.0.1580117356b.N74bc</con6:id>
+                        <con1:logLevel>debug</con1:logLevel>
+                        <con1:expr>
+                            <con6:xqueryText xmlns:con6="http://www.bea.com/wli/sb/stages/config">fn:concat('~RESTComponent~[AndBank.ARCH][',$ServiceName,'][',$LogId,'][RESPONSE][REPORTING]')</con6:xqueryText>
+                        </con1:expr>
+                        <con1:message/>
+                    </con1:log>
+                </con:actions>
+            </con:stage>
+            <con:stage name="Arch_Res_Log_End">
+                <con:context xmlns:con3="http://www.bea.com/wli/sb/stages/config" xmlns:con1="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con4="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con5="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con2="http://www.bea.com/wli/sb/stages/transform/config"/>
+                <con:actions>
+                    <con4:log xmlns:con4="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con3="http://www.bea.com/wli/sb/stages/config" xmlns:con5="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con2="http://www.bea.com/wli/sb/stages/transform/config">
+                        <con3:id>_ActionId-7796560.841ade2.0.1580117356b.N74ba</con3:id>
+                        <con4:logLevel>debug</con4:logLevel>
+                        <con4:expr>
+                            <con3:xqueryText>fn:concat('~RESTComponent~[AndBank.ARCH][',$ServiceName,'][',$LogId,'][SRV_OUTPUT][Body]',fn-bea:serialize($body))</con3:xqueryText>
+                        </con4:expr>
+                        <con4:message/>
+                    </con4:log>
+                    <con1:log xmlns:con4="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con1="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con5="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                        <con6:id xmlns:con6="http://www.bea.com/wli/sb/stages/config">_ActionId-7796560.841ade2.0.1580117356b.N74b9</con6:id>
+                        <con1:logLevel>info</con1:logLevel>
+                        <con1:expr>
+                            <con6:xqueryText xmlns:con6="http://www.bea.com/wli/sb/stages/config">fn:concat('~RESTComponent~[AndBank.ARCH][',$ServiceName,'][',$LogId,'][',$IncomingMessageTimestamp,'][END_SERVICE]')</con6:xqueryText>
+                        </con1:expr>
+                        <con1:message/>
+                    </con1:log>
+                </con:actions>
+            </con:stage>
+        </con:pipeline>
+        <con:pipeline name="request-7796560.N3b28ac15.0.1580511f40a.N7b56" type="request">
+            <con:stage name="Dev_Req_Log_Init">
+                <con:context xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con2="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                    <con1:userNsDecl prefix="res" namespace="http://TargetNamespace.com/RestService_Post_Op_request" xmlns:con4="http://www.bea.com/wli/sb/stages/config"/>
+                </con:context>
+                <con:actions>
+                    <con5:log xmlns:con4="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con1="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con5="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                        <con2:id>_ActionId-7796560.N3b28ac15.0.1580511f40a.N7b54</con2:id>
+                        <con1:logLevel>info</con1:logLevel>
+                        <con1:expr>
+                            <con2:xqueryText>fn:concat('~',$ServiceName,'~[AndBank.DEV][',$ServiceName,'][',$LogId,'][START_SERVICE]')</con2:xqueryText>
+                        </con1:expr>
+                        <con1:message/>
+                    </con5:log>
+                    <con5:log xmlns:con4="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con3="http://www.bea.com/wli/sb/stages/config" xmlns:con5="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con2="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con1="http://www.bea.com/wli/sb/stages/config">
+                        <con3:id>_ActionId-7796560.N3b28ac15.0.1580511f40a.N7b53</con3:id>
+                        <con4:logLevel>debug</con4:logLevel>
+                        <con4:expr>
+                            <con1:xqueryText>fn:concat('~',$ServiceName,'~[AndBank.DEV][',$ServiceName,'][',$LogId,'][SRV_INPUT][Body]',fn-bea:serialize($body))</con1:xqueryText>
+                        </con4:expr>
+                        <con4:message/>
+                    </con5:log>
+                </con:actions>
+            </con:stage>
+            <con:stage name="Dev_Req_Jurisdiction_Validation">
+                <con:context xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con2="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                    <con4:userNsDecl prefix="req" namespace="http://TargetNamespace.com/request_validation" xmlns:con4="http://www.bea.com/wli/sb/stages/config"/>
+                </con:context>
+                <con:actions>
+                    <con3:validate xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con2="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                        <con1:id xmlns:con4="http://www.bea.com/wli/sb/stages/config">_ActionId-77964fc.N39cd714f.0.158aac7ff2b.N7f62</con1:id>
+                        <con3:schema ref="Repository/Architecture/XSD/request_jurisdiction_validation"/>
+                        <con3:schemaElement xmlns:req="http://TargetNamespace.com/request_validation">req:Root-Element</con3:schemaElement>
+                        <con3:varName>body</con3:varName>
+                        <con3:location>
+                            <con4:xpathText xmlns:con4="http://www.bea.com/wli/sb/stages/config">./req:Root-Element</con4:xpathText>
+                        </con3:location>
+                    </con3:validate>
+                    <con4:log xmlns:con4="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con2="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                        <con1:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-77964fc.N39cd714f.0.158aac7ff2b.N7ed9</con1:id>
+                        <con4:logLevel>debug</con4:logLevel>
+                        <con4:expr>
+                            <con5:xqueryText xmlns:con5="http://www.bea.com/wli/sb/stages/config">fn:concat('~',$ServiceName,'~[AndBank.DEV][',$ServiceName,'][',$LogId,'][REQUEST][JURISDICTION_VALIDATION]')</con5:xqueryText>
+                        </con4:expr>
+                    </con4:log>
+                </con:actions>
+            </con:stage>
+            <con:stage name="Dev_Req_Body_Validation">
+                <con:context xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con2="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                    <con1:userNsDecl prefix="val" namespace="http://TargetNamespace.com/req_validation" xmlns:con4="http://www.bea.com/wli/sb/stages/config"/>
+                    <con1:userNsDecl prefix="reqval" namespace="http://TargetNamespace.com/request_validation" xmlns:con4="http://www.bea.com/wli/sb/stages/config"/>
+                </con:context>
+                <con:actions>
+                    <con3:validate xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con2="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                        <con1:id xmlns:con4="http://www.bea.com/wli/sb/stages/config">_ActionId-7796560.N3b28ac15.0.1580511f40a.N7b51</con1:id>
+                        <con3:schema ref="WS_CV_010/Resources/XSD/request_body_validation"/>
+                        <con3:schemaElement xmlns:req="http://TargetNamespace.com/request_validation">req:Root-Element</con3:schemaElement>
+                        <con3:varName>body</con3:varName>
+                        <con3:location>
+                            <con1:xpathText xmlns:con4="http://www.bea.com/wli/sb/stages/config">./reqval:Root-Element</con1:xpathText>
+                        </con3:location>
+                    </con3:validate>
+                    <con3:assign varName="validation" xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con2="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                        <con1:id xmlns:con4="http://www.bea.com/wli/sb/stages/config">_ActionId-N3f5732d8.2a9325bc.0.158af317224.N7def</con1:id>
+                        <con3:expr>
+                            <con4:xqueryTransform xmlns:con4="http://www.bea.com/wli/sb/stages/config">
+                                <con4:resource ref="WS_CV_010/Resources/XQ/request_body_validation"/>
+                                <con4:param name="rootElement">
+                                    <con4:path>$body/reqval:Root-Element</con4:path>
+                                </con4:param>
+                            </con4:xqueryTransform>
+                        </con3:expr>
+                    </con3:assign>
+                    <con3:ifThenElse xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con2="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                        <con1:id xmlns:con4="http://www.bea.com/wli/sb/stages/config">_ActionId-N3f5732d8.2a9325bc.0.158af317224.N7dc6</con1:id>
+                        <con3:case id="N3f57302e.88c8c65.2.162d3d28e93.N7fee">
+                            <con3:condition>
+                                <con1:xqueryText xmlns:con4="http://www.bea.com/wli/sb/stages/config">count($validation/val:ValidationErrorList/val:ValidationError)</con1:xqueryText>
+                            </con3:condition>
+                            <con3:actions>
+                                <con3:Error>
+                                    <con1:id xmlns:con4="http://www.bea.com/wli/sb/stages/config">_ActionId-N3f5732d8.2a9325bc.0.158af317224.N7dc2</con1:id>
+                                    <con3:errCode>BUS-1</con3:errCode>
+                                    <con3:message>Request Validation Error</con3:message>
+                                </con3:Error>
+                            </con3:actions>
+                        </con3:case>
+                        <con3:default/>
+                    </con3:ifThenElse>
+                    <con4:log xmlns:con4="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con2="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                        <con1:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-7796560.N3b28ac15.0.1580511f40a.N7b50</con1:id>
+                        <con4:logLevel>debug</con4:logLevel>
+                        <con4:expr>
+                            <con5:xqueryText xmlns:con5="http://www.bea.com/wli/sb/stages/config">fn:concat('~',$ServiceName,'~[AndBank.DEV][',$ServiceName,'][',$LogId,'][REQUEST][BODY_VALIDATION]')</con5:xqueryText>
+                        </con4:expr>
+                    </con4:log>
+                </con:actions>
+            </con:stage>
+            <con:stage name="Arch_Req_RootElement_Adapter">
+                <con:context xmlns:con1="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con4="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con3="http://www.bea.com/wli/sb/stages/routing/config"/>
+                <con:actions>
+                    <con4:replace varName="body" contents-only="true" xmlns:con5="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con1="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con4="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con3="http://www.bea.com/wli/sb/stages/routing/config">
+                        <con2:id>_ActionId-7796560.N3b28ac15.0.1580511f40a.N7b4e</con2:id>
+                        <con4:location>
+                            <con2:xpathText>.</con2:xpathText>
+                        </con4:location>
+                        <con4:expr>
+                            <con2:xqueryTransform>
+                                <con2:resource ref="WS_CV_010/Resources/XQ/request_transformation_to_external_call"/>
+                                <con2:param name="body">
+                                    <con2:path>$body/*</con2:path>
+                                </con2:param>
+                            </con2:xqueryTransform>
+                        </con4:expr>
+                    </con4:replace>
+                    <con4:log xmlns:con4="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con3="http://www.bea.com/wli/sb/stages/config" xmlns:con2="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con5="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con1="http://www.bea.com/wli/sb/stages/config">
+                        <con1:id>_ActionId-7796560.N3b28ac15.0.1580511f40a.N7b4d</con1:id>
+                        <con4:logLevel>debug</con4:logLevel>
+                        <con4:expr>
+                            <con1:xqueryText>fn:concat('~',$ServiceName,'~[AndBank.ARCH][',$ServiceName,'][',$LogId,'][REQUEST][RootElement_Adapter][Body]',fn-bea:serialize($body))</con1:xqueryText>
+                        </con4:expr>
+                        <con4:message/>
+                    </con4:log>
+                </con:actions>
+            </con:stage>
+        </con:pipeline>
+        <con:pipeline name="response-7796560.N3b28ac15.0.1580511f40a.N7b4c" type="response">
+            <con:stage name="Dev_Res_Body_Validation">
+                <con:context xmlns:con2="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                    <con4:userNsDecl prefix="val" namespace="http://TargetNamespace.com/req_validation" xmlns:con4="http://www.bea.com/wli/sb/stages/config"/>
+                    <con4:userNsDecl prefix="resval" namespace="http://TargetNamespace.com/response_validation" xmlns:con4="http://www.bea.com/wli/sb/stages/config"/>
+                </con:context>
+                <con:actions>
+                    <con3:rename varName="body" xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con4="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con2="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                        <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-779651f.N2e8fd27d.0.1592069dabc.N7e87</con5:id>
+                        <con3:location>
+                            <con1:xpathText xmlns:con5="http://www.bea.com/wli/sb/stages/config">.//*</con1:xpathText>
+                        </con3:location>
+                        <con3:namespace>http://TargetNamespace.com/response_validation</con3:namespace>
+                    </con3:rename>
+                    <con5:log xmlns:con5="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con4="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con2="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                        <con6:id xmlns:con6="http://www.bea.com/wli/sb/stages/config">_ActionId-779651f.N2e8fd27d.0.1592069dabc.N7e84</con6:id>
+                        <con5:logLevel>debug</con5:logLevel>
+                        <con5:expr>
+                            <con6:xqueryText xmlns:con6="http://www.bea.com/wli/sb/stages/config">fn:concat('~',$ServiceName,'~[AndBank.DEV][',$ServiceName,'][',$LogId,'][RESPONSE][Call WS_P_001][RESPONSE_SERVICE_P_001]',fn-bea:serialize($body))</con6:xqueryText>
+                        </con5:expr>
+                    </con5:log>
+                    <con1:replace contents-only="true" varName="body">
+                        <con2:id>_ActionId-a797cb2.N3a1cbee1.0.1634af2e00c.N7ffe</con2:id>
+                        <con1:location>
+                            <con2:xpathText>.</con2:xpathText>
+                        </con1:location>
+                        <con1:expr>
+                            <con2:xqueryTransform>
+                                <con2:resource ref="WS_CV_010/Resources/XQ/external_call_transformation_to_response"/>
+                                <con2:param name="requestId">
+                                    <con2:path>$requestID</con2:path>
+                                </con2:param>
+                                <con2:param name="jurisdiction">
+                                    <con2:path>$jurisdiction</con2:path>
+                                </con2:param>
+                                <con2:param name="clientApp">
+                                    <con2:path>$clientApp</con2:path>
+                                </con2:param>
+                                <con2:param name="messageId">
+                                    <con2:path>$LogId</con2:path>
+                                </con2:param>
+                                <con2:param name="body">
+                                    <con2:path>$body/*</con2:path>
+                                </con2:param>
+                            </con2:xqueryTransform>
+                        </con1:expr>
+                    </con1:replace>
+                    <con3:validate xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con4="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con2="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                        <con1:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-7796560.N3b28ac15.0.1580511f40a.N7b48</con1:id>
+                        <con5:disabled xmlns:con5="http://www.bea.com/wli/sb/stages/config">true</con5:disabled>
+                        <con3:schema ref="Repository/Architecture/XSD/Templates/res_body_validation"/>
+                        <con3:schemaElement xmlns:res="http://TargetNamespace.com/response_validation">res:Root-Element</con3:schemaElement>
+                        <con3:varName>body</con3:varName>
+                        <con3:location>
+                            <con4:xpathText xmlns:con4="http://www.bea.com/wli/sb/stages/config">./resval:Root-Element</con4:xpathText>
+                        </con3:location>
+                    </con3:validate>
+                    <con3:assign varName="validation" xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con4="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con2="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                        <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-77964fc.N425b856e.0.158b94f9264.N78d3</con5:id>
+                        <con5:disabled xmlns:con5="http://www.bea.com/wli/sb/stages/config">true</con5:disabled>
+                        <con4:expr>
+                            <con5:xqueryTransform xmlns:con5="http://www.bea.com/wli/sb/stages/config">
+                                <con5:resource ref="Repository/Architecture/XQ/response_body_validation"/>
+                            </con5:xqueryTransform>
+                        </con4:expr>
+                    </con3:assign>
+                    <con3:ifThenElse xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con4="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con2="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                        <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-77964fc.N425b856e.0.158b94f9264.N78cc</con5:id>
+                        <con5:disabled xmlns:con5="http://www.bea.com/wli/sb/stages/config">true</con5:disabled>
+                        <con4:case id="N3f57302e.88c8c65.2.162d3d28e93.N7feb">
+                            <con4:condition>
+                                <con5:xqueryText xmlns:con5="http://www.bea.com/wli/sb/stages/config">count($validation/val:ValidationErrorList/val:ValidationError)</con5:xqueryText>
+                            </con4:condition>
+                            <con4:actions>
+                                <con4:Error>
+                                    <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-77964fc.N425b856e.0.158b94f9264.N78c8</con5:id>
+                                    <con4:errCode>BUS-3</con4:errCode>
+                                    <con4:message>Response Validation Error</con4:message>
+                                </con4:Error>
+                            </con4:actions>
+                        </con4:case>
+                        <con4:default/>
+                    </con3:ifThenElse>
+                    <con4:log xmlns:con4="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con2="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                        <con1:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-7796560.N3b28ac15.0.1580511f40a.N7b47</con1:id>
+                        <con4:logLevel>debug</con4:logLevel>
+                        <con4:expr>
+                            <con5:xqueryText xmlns:con5="http://www.bea.com/wli/sb/stages/config">fn:concat('~',$ServiceName,'~[AndBank.DEV][',$ServiceName,'][',$LogId,'][RESPONSE][BODY_VALIDATION]',fn-bea:serialize($body))</con5:xqueryText>
+                        </con4:expr>
+                    </con4:log>
+                    <con3:ifThenElse xmlns:con4="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con2="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                        <con1:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-7796560.N3b28ac15.0.1580511f40a.N7b4a</con1:id>
+                        <con3:case id="N3f57302e.88c8c65.2.162d3d28e93.N7fea">
+                            <con3:condition>
+                                <con1:xqueryConditionExpr xmlns:con5="http://www.bea.com/wli/sb/stages/config">
+                                    <con5:compExpr operator="!=">
+                                        <con5:leftPath>$body/resval:Root-Element/resval:body/resval:code</con5:leftPath>
+                                        <con5:rightPath>'0-000-00'</con5:rightPath>
+                                    </con5:compExpr>
+                                </con1:xqueryConditionExpr>
+                            </con3:condition>
+                            <con3:actions>
+                                <con5:log xmlns:con4="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con3="http://www.bea.com/wli/sb/stages/config" xmlns:con2="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con5="http://www.bea.com/wli/sb/stages/logging/config">
+                                    <con3:id>_ActionId-7796560.N3b28ac15.0.1580511f40a.N7b46</con3:id>
+                                    <con4:logLevel>error</con4:logLevel>
+                                    <con4:expr>
+                                        <con3:xqueryText>fn:concat('~',$ServiceName,'~[AndBank.DEV][',$ServiceName,'][',$LogId,'][RESPONSE][BODY_VALIDATION][Error]')</con3:xqueryText>
+                                    </con4:expr>
+                                    <con4:message/>
+                                </con5:log>
+                                <con3:assign varName="codeErrorClient">
+                                    <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-77964fc.N425b856e.0.158b94f9264.N7c4d</con5:id>
+                                    <con4:expr>
+                                        <con5:xqueryText xmlns:con5="http://www.bea.com/wli/sb/stages/config">$body/resval:Root-Element/resval:body/resval:code</con5:xqueryText>
+                                    </con4:expr>
+                                </con3:assign>
+                                <con3:assign varName="messageErrorClient">
+                                    <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-77964fc.N425b856e.0.158b94f9264.N7c4a</con5:id>
+                                    <con4:expr>
+                                        <con5:xqueryText xmlns:con5="http://www.bea.com/wli/sb/stages/config">$body/resval:Root-Element/resval:body/resval:message</con5:xqueryText>
+                                    </con4:expr>
+                                </con3:assign>
+                                <con3:Error>
+                                    <con1:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-7796560.N3b28ac15.0.1580511f40a.N7b45</con1:id>
+                                    <con3:errCode>BUS-2</con3:errCode>
+                                    <con3:message>Response Validation Error</con3:message>
+                                </con3:Error>
+                            </con3:actions>
+                        </con3:case>
+                        <con3:default/>
+                    </con3:ifThenElse>
+                </con:actions>
+            </con:stage>
+            <con:stage name="Dev_Res_Body_Transformation">
+                <con:context xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config"/>
+                <con:actions>
+                    <con4:log xmlns:con4="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con2="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                        <con1:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-7796560.N3b28ac15.0.1580511f40a.N7b42</con1:id>
+                        <con4:logLevel>debug</con4:logLevel>
+                        <con4:expr>
+                            <con5:xqueryText xmlns:con5="http://www.bea.com/wli/sb/stages/config">fn:concat('~',$ServiceName,'~[AndBank.DEV][',$ServiceName,'][',$LogId,'][RESPONSE][BODY_TRANSFORMATION]',fn-bea:serialize($body))</con5:xqueryText>
+                        </con4:expr>
+                    </con4:log>
+                </con:actions>
+            </con:stage>
+            <con:stage name="Dev_Res_Log_End">
+                <con:context xmlns:con3="http://www.bea.com/wli/sb/stages/config" xmlns:con1="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con4="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con5="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con2="http://www.bea.com/wli/sb/stages/transform/config"/>
+                <con:actions>
+                    <con4:log xmlns:con4="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con3="http://www.bea.com/wli/sb/stages/config" xmlns:con5="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con2="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con1="http://www.bea.com/wli/sb/stages/config">
+                        <con3:id>_ActionId-7796560.N3b28ac15.0.1580511f40a.N7b40</con3:id>
+                        <con4:logLevel>debug</con4:logLevel>
+                        <con4:expr>
+                            <con1:xqueryText>fn:concat('~',$ServiceName,'~[AndBank.DEV][',$ServiceName,'][',$LogId,'][SRV_OUTPUT][Body]',fn-bea:serialize($body))</con1:xqueryText>
+                        </con4:expr>
+                        <con4:message/>
+                    </con4:log>
+                    <con1:log xmlns:con4="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con1="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con5="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                        <con6:id xmlns:con6="http://www.bea.com/wli/sb/stages/config">_ActionId-7796560.N3b28ac15.0.1580511f40a.N7b3f</con6:id>
+                        <con1:logLevel>info</con1:logLevel>
+                        <con1:expr>
+                            <con2:xqueryText>fn:concat('~',$ServiceName,'~[AndBank.DEV][',$ServiceName,'][',$LogId,'][END_SERVICE]')</con2:xqueryText>
+                        </con1:expr>
+                        <con1:message/>
+                    </con1:log>
+                </con:actions>
+            </con:stage>
+        </con:pipeline>
+        <con:pipeline name="error-7796560.841ade2.0.1580117356b.N6f0a" type="error">
+            <con:stage name="Reply">
+                <con:context xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con2="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config"/>
+                <con:actions>
+                    <con1:assign varName="fallo">
+                        <con2:id>_ActionId-a797c44.N33ab873d.0.163aacbcd44.N7cfa</con2:id>
+                        <con1:expr>
+                            <con2:xqueryTransform>
+                                <con2:resource ref="WS_CV_010/Resources/XQ/fault_message"/>
+                                <con2:param name="fault">
+                                    <con2:path>$fault/ctx:details/*[1]/*[1]/text()</con2:path>
+                                </con2:param>
+                            </con2:xqueryTransform>
+                        </con1:expr>
+                    </con1:assign>
+                    <con1:ifThenElse>
+                        <con2:id>_ActionId-a797cb2.5570ac9e.0.16362fbeba3.N7ffa</con2:id>
+                        <con1:case id="_BranchId-a797cb2.5570ac9e.0.16362fbeba3.N7ff9">
+                            <con1:condition>
+                                <con2:xqueryText>$outbound/ctx:transport/ctx:response/http:http-response-code = '400'</con2:xqueryText>
+                            </con1:condition>
+                            <con1:actions>
+                                <con3:log xmlns:con3="http://www.bea.com/wli/sb/stages/logging/config">
+                                    <con2:id>_ActionId-N3f57302e.N2c045c4f.0.163881565a5.N7f5d</con2:id>
+                                    <con3:logLevel>error</con3:logLevel>
+                                    <con3:expr>
+                                        <con2:xqueryText>fn:concat('[REQUEST][ErrorHandler][WS_CV_009]',fn-bea:serialize($body),'[ErrorFault]',fn-bea:serialize($fault))</con2:xqueryText>
+                                    </con3:expr>
+                                    <con3:message>&lt;&lt;&lt;&lt;&lt;&lt; Error 400>>>>>>>>></con3:message>
+                                </con3:log>
+                                <con1:Error>
+                                    <con2:id>_ActionId-a797cb2.5570ac9e.0.16362fbeba3.N7ff4</con2:id>
+                                    <con1:errCode>3-101-00</con1:errCode>
+                                    <con1:message>La operación ha devuelto KO.</con1:message>
+                                </con1:Error>
+                            </con1:actions>
+                        </con1:case>
+                        <con1:case id="_BranchId-a797cb2.5570ac9e.0.16362fbeba3.N7ff7">
+                            <con1:condition>
+                                <con2:xqueryText>$outbound/ctx:transport/ctx:response/http:http-response-code = '404'</con2:xqueryText>
+                            </con1:condition>
+                            <con1:actions>
+                                <con3:log xmlns:con3="http://www.bea.com/wli/sb/stages/logging/config">
+                                    <con2:id>_ActionId-N3f57302e.N2c045c4f.0.163881565a5.N7f60</con2:id>
+                                    <con3:logLevel>error</con3:logLevel>
+                                    <con3:expr>
+                                        <con2:xqueryText>fn:concat('[REQUEST][ErrorHandler][WS_CV_009]',fn-bea:serialize($body),'[ErrorFault]',fn-bea:serialize($fault))</con2:xqueryText>
+                                    </con3:expr>
+                                    <con3:message>&lt;&lt;&lt;&lt;&lt;&lt; Error 404>>>>>>>>></con3:message>
+                                </con3:log>
+                                <con1:Error>
+                                    <con2:id>_ActionId-a797cb2.5570ac9e.0.16362fbeba3.N7ff1</con2:id>
+                                    <con1:errCode>5-101-00</con1:errCode>
+                                    <con1:message>No hay datos en la consulta.</con1:message>
+                                </con1:Error>
+                            </con1:actions>
+                        </con1:case>
+                        <con1:case id="_BranchId-N3f57302e.N2c045c4f.0.163881565a5.N7f96" xmlns:con3="http://www.bea.com/wli/sb/stages/logging/config">
+                            <con1:condition>
+                                <con2:xqueryText>$outbound/ctx:transport/ctx:response/http:http-response-code = '405'</con2:xqueryText>
+                            </con1:condition>
+                            <con1:actions>
+                                <con3:log>
+                                    <con2:id>_ActionId-N3f57302e.N2c045c4f.0.163881565a5.N7f95</con2:id>
+                                    <con3:logLevel>error</con3:logLevel>
+                                    <con3:expr>
+                                        <con2:xqueryText>fn:concat('[REQUEST][ErrorHandler][WS_CV_009]',fn-bea:serialize($body),'[ErrorFault]',fn-bea:serialize($fault))</con2:xqueryText>
+                                    </con3:expr>
+                                    <con3:message>&lt;&lt;&lt;&lt;&lt;&lt; Error 405>>>>>>>>></con3:message>
+                                </con3:log>
+                                <con1:Error>
+                                    <con2:id>_ActionId-N3f57302e.N2c045c4f.0.163881565a5.N7f94</con2:id>
+                                    <con1:errCode>405</con1:errCode>
+                                    <con1:message>Error al generar la peticion. Patch, Post, Get..</con1:message>
+                                </con1:Error>
+                            </con1:actions>
+                        </con1:case>
+                        <con1:case id="_BranchId-a797c44.N33ab873d.0.163aacbcd44.N7c5e">
+                            <con1:condition>
+                                <con2:xqueryText>$fallo/CODE = 'anomaly'</con2:xqueryText>
+                            </con1:condition>
+                            <con1:actions>
+                                <con3:log xmlns:con3="http://www.bea.com/wli/sb/stages/logging/config">
+                                    <con2:id>_ActionId-a797c44.N33ab873d.0.163aacbcd44.N7c5a</con2:id>
+                                    <con3:logLevel>error</con3:logLevel>
+                                    <con3:expr>
+                                        <con2:xqueryText>fn:concat('[REQUEST][ErrorHandler][WS_CV_009]',fn-bea:serialize($body),'[ErrorFault]',fn-bea:serialize($fault))</con2:xqueryText>
+                                    </con3:expr>
+                                    <con3:message>&lt;&lt;&lt;&lt;&lt;&lt; Error OLYMPIC>>>>>>>>></con3:message>
+                                </con3:log>
+                                <con1:Error>
+                                    <con2:id>_ActionId-a797c44.N33ab873d.0.163aacbcd44.N7c5d</con2:id>
+                                    <con1:errCode>anomaly</con1:errCode>
+                                    <con1:message>Fallo OLYMPIC API.</con1:message>
+                                </con1:Error>
+                            </con1:actions>
+                        </con1:case>
+                        <con1:default>
+                            <con3:log xmlns:con3="http://www.bea.com/wli/sb/stages/logging/config">
+                                <con2:id>_ActionId-N3f57302e.N2c045c4f.0.163881565a5.N7f59</con2:id>
+                                <con3:logLevel>error</con3:logLevel>
+                                <con3:expr>
+                                    <con2:xqueryText>fn:concat('[REQUEST][ErrorHandler][WS_CV_009]',fn-bea:serialize($body),'[ErrorFault]',fn-bea:serialize($fault))</con2:xqueryText>
+                                </con3:expr>
+                                <con3:message>&lt;&lt;&lt;&lt;&lt;&lt; Error Unknown>>>>>>>>></con3:message>
+                            </con3:log>
+                            <con1:Error>
+                                <con2:id>_ActionId-a797cb2.5570ac9e.0.16362fbeba3.N7fee</con2:id>
+                                <con1:errCode>9-901-00</con1:errCode>
+                                <con1:message>Connection error. Could not connect with the server.</con1:message>
+                            </con1:Error>
+                        </con1:default>
+                    </con1:ifThenElse>
+                </con:actions>
+            </con:stage>
+        </con:pipeline>
+        <con:flow>
+            <con:pipeline-node name="Arch_Pipe_Line_Pair">
+                <con:request>request-7796560.841ade2.0.1580117356b.N74dd</con:request>
+                <con:response>response-7796560.841ade2.0.1580117356b.N74c7</con:response>
+            </con:pipeline-node>
+            <con:pipeline-node name="Development_Pipeline">
+                <con:request>request-7796560.N3b28ac15.0.1580511f40a.N7b56</con:request>
+                <con:response>response-7796560.N3b28ac15.0.1580511f40a.N7b4c</con:response>
+            </con:pipeline-node>
+            <con:route-node name="Arch_Local_Routing" error-handler="error-7796560.841ade2.0.1580117356b.N6f0a">
+                <con:context xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con2="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config"/>
+                <con:actions>
+                    <con2:route xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con2="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+                        <con1:id xmlns:con4="http://www.bea.com/wli/sb/stages/config">_ActionId-7796560.841ade2.0.1580117356b.N6fde</con1:id>
+                        <con2:service ref="WS_CV_010/BS/WS_C_010_RestReference" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                        <con2:operation>PATCH</con2:operation>
+                        <con2:outboundTransform>
+                            <con5:log xmlns:con2="http://www.bea.com/wli/sb/stages/config" xmlns:con4="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con1="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con5="http://www.bea.com/wli/sb/stages/logging/config">
+                                <con6:id xmlns:con6="http://www.bea.com/wli/sb/stages/config">_ActionId-7796560.841ade2.0.1580117356b.N6faa</con6:id>
+                                <con1:logLevel>debug</con1:logLevel>
+                                <con1:expr>
+                                    <con6:xqueryText xmlns:con6="http://www.bea.com/wli/sb/stages/config">fn:concat('~RESTComponent~[AndBank.ARCH][',$ServiceName,'][',$LogId,'][REQUEST][ROUTING][Call WS_P_001][Body]',fn-bea:serialize($body))</con6:xqueryText>
+                                </con1:expr>
+                                <con1:message/>
+                            </con5:log>
+                            <con3:transport-headers>
+                                <con4:id xmlns:con4="http://www.bea.com/wli/sb/stages/config">_ActionId-779651f.N2e8fd27d.0.1592069dabc.N7ec2</con4:id>
+                                <con3:header-set>outbound-request</con3:header-set>
+                                <con3:header value="expression" name="Content-Type">
+                                    <con4:xqueryText xmlns:con4="http://www.bea.com/wli/sb/stages/config">'application/json'</con4:xqueryText>
+                                </con3:header>
+                                <con3:header value="expression" name="Authorization">
+                                    <con4:xqueryText xmlns:con4="http://www.bea.com/wli/sb/stages/config">'0104903'</con4:xqueryText>
+                                </con3:header>
+                            </con3:transport-headers>
+                        </con2:outboundTransform>
+                        <con2:responseTransform>
+                            <con5:log xmlns:con2="http://www.bea.com/wli/sb/stages/config" xmlns:con4="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con1="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con5="http://www.bea.com/wli/sb/stages/logging/config">
+                                <con6:id xmlns:con6="http://www.bea.com/wli/sb/stages/config">_ActionId-7796560.841ade2.0.1580117356b.N6f76</con6:id>
+                                <con1:logLevel>debug</con1:logLevel>
+                                <con1:expr>
+                                    <con6:xqueryText xmlns:con6="http://www.bea.com/wli/sb/stages/config">fn:concat('~RESTComponent~[AndBank.ARCH][',$ServiceName,'][',$LogId,'][RESPONSE][ROUTING][Call WS_P_001][Body]',fn-bea:serialize($body))</con6:xqueryText>
+                                </con1:expr>
+                                <con1:message/>
+                            </con5:log>
+                        </con2:responseTransform>
+                    </con2:route>
+                </con:actions>
+            </con:route-node>
+        </con:flow>
+        <con:shared-variables>
+            <con:variable>ServiceName</con:variable>
+            <con:variable>IncomingMessageTimestamp</con:variable>
+            <con:variable>ArchAuditHeader</con:variable>
+            <con:variable>LogId</con:variable>
+            <con:variable>clientApp</con:variable>
+            <con:variable>jurisdiction</con:variable>
+            <con:variable>requestID</con:variable>
+            <con:variable>fallo</con:variable>
+        </con:shared-variables>
+    </con:router>
+</con:pipelineEntry>
