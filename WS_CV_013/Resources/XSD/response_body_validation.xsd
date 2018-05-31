@@ -1,0 +1,28 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://TargetNamespace.com/response_validation"
+            targetNamespace="http://TargetNamespace.com/response_validation" elementFormDefault="qualified">
+  <xsd:element name="Root-Element">
+    <xsd:complexType>
+      <xsd:all>
+        <xsd:element name="CODE" type="xsd:string" minOccurs="0"/>
+        <xsd:element name="MESSAGE" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+        <xsd:element name="DESCRIPTION" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+        <xsd:element name="CNT_ID" minOccurs="1" />
+        <xsd:element name="RNC_CLI_RACINE" minOccurs="1" />
+        <xsd:element name="RNC_CNT_NUMERO" minOccurs="1" />
+        <xsd:element name="RNC_TYPREL" minOccurs="1" />
+        <xsd:element name="RNC_STATUT" minOccurs="1" />
+        <xsd:element name="RNC_MAITRE_MAJ" minOccurs="1" />
+        <xsd:element name="RCN_CNT_NUMERO" minOccurs="1" />
+        <xsd:element name="CNT_TAUXIMPOSITION" minOccurs="1" />
+        <xsd:element name="RCN_RACINELIEE" minOccurs="1" />
+        <xsd:element name="RCN_TYPERELATION" minOccurs="1" />
+        <xsd:element name="RCN_STATUS" minOccurs="1" />
+      </xsd:all>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:annotation xmlns="">
+    <xsd:appinfo>NXSDSAMPLE=</xsd:appinfo>
+    <xsd:appinfo>USEHEADER=false</xsd:appinfo>
+  </xsd:annotation>
+</xsd:schema>
